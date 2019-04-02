@@ -6,6 +6,9 @@ import com.ttn.reap.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
     @Autowired
@@ -15,6 +18,14 @@ public class UserService {
         User userToSave = setBadges(user);
         userToSave.setPoints(calculatePoints(userToSave));
         return userRepository.save(userToSave);
+    }
+    
+    public List<User> getUserList() {
+        return userRepository.findAll();
+    }
+    
+    public Optional<User> getUser(Integer id) {
+        return userRepository.findById(id);
     }
     
     User setBadges(User user) {
