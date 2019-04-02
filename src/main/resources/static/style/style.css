@@ -1,0 +1,66 @@
+body {
+  background: #eee;
+  font-family: sans-serif;
+}
+
+.navbar {
+  padding: 1em 2.7em;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.reap-text {
+  font-weight: 900;
+  font-size: 1.5em;
+  font-family: Chilanka;
+}
+
+.navbar-nav .nav-item a {
+  padding: 0.5em;
+  color: #000 !important;
+}
+
+.navbar-nav .nav-item a:hover {
+  background: #fe246b;
+  color: #fff !important;
+}
+
+.navbar-nav .nav-item a:active {
+  background: #fe246b;
+  color: #fff;
+}
+
+#main {
+  padding: 1.5em;
+}
+
+.card-header {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #fff;
+  background: #004ba1;
+}
+
+@media (min-width: 768px) {
+  .nav-item .dropdown-menu {
+    width: 600px !important;
+  }
+}
+
+#dateDropdownLink {
+  text-decoration: none;
+  text-transform: none;
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.card-body .fa-user-circle {
+  font-size: 3em;
+}
+
+.newer-row {
+  margin-bottom: 1em;
+}
+
+.newer-row:last-child {
+  margin-bottom: 0;
+}
