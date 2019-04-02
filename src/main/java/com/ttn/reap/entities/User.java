@@ -3,7 +3,8 @@ package com.ttn.reap.entities;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -18,15 +19,16 @@ public class User {
     private Byte[] photo;
     @Email(message = "Invalid email")
     private String email;
-    @Size(min = 5, message = "Password should be at least 5 characters in length")
+    @Size(min = 3, message = "Password should be at least 3 characters in length")
     private String password;
     private Boolean active;
-    private Integer gold;
-    private Integer silver;
-    private Integer bronze;
+    private Integer gold = 3;
+    private Integer silver = 2;
+    private Integer bronze = 1;
+    private Integer points = 0;
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private List<Role> roleList;
+    private Set<Role> roleSet = new HashSet<>();
     
     public Integer getId() {
         return id;
@@ -108,12 +110,20 @@ public class User {
         this.bronze = bronze;
     }
     
-    public List<Role> getRoleList() {
-        return roleList;
+    public Set<Role> getRoleSet() {
+        return roleSet;
     }
     
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
+    }
+    
+    public Integer getPoints() {
+        return points;
+    }
+    
+    public void setPoints(Integer points) {
+        this.points = points;
     }
     
     @Override
@@ -129,7 +139,8 @@ public class User {
                 ", gold=" + gold +
                 ", silver=" + silver +
                 ", bronze=" + bronze +
-                ", roleList=" + roleList +
+                ", points=" + points +
+                ", roleSet=" + roleSet +
                 '}';
     }
 }
