@@ -27,6 +27,7 @@ public class UserController {
     private static String UPLOADED_FOLDER = "/home/ttn/ttn_dev/reap/src/main/resources/static/user-images/";
     
     @GetMapping("/users")
+    @ResponseBody
     List<User> getUserList() {
         return userService.getUserList();
     }

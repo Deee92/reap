@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/my-fragments :: header-fragment">
+<head th:replace="fragments/my-fragments :: header-fragment"></head>
 <body>
 <div th:replace="fragments/my-fragments :: navbar-fragment"></div>
 <div class="container mx-auto my-5 p-4" style="background: #fff; width: 70%;">
@@ -75,14 +75,5 @@
     </div>
 </div>
 <div th:replace="fragments/my-fragments :: footer-fragment"></div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('input[type="file"]').change(function (e) {
-            var fileName = e.target.files[0].name;
-            $("#inputPhoto").text(fileName);
-            console.log(fileName);
-        });
-    });
-</script>
 </body>
 </html>
