@@ -16,19 +16,19 @@ public class User {
     @NotNull(message = "Last name must have a value")
     private String lastName;
     @Lob
-    private Byte[] photo;
+    private byte[] photo;
     @Email(message = "Invalid email")
     private String email;
     @Size(min = 3, message = "Password should be at least 3 characters in length")
     private String password;
-    private Boolean active;
+    private Boolean active = true;
     private Integer gold = 3;
     private Integer silver = 2;
     private Integer bronze = 1;
     private Integer points = 0;
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private Set<Role> roleSet = new HashSet<>();
+    private Set<Role> roleSet = new HashSet<>(Arrays.asList(Role.USER));
     
     public Integer getId() {
         return id;
@@ -54,11 +54,11 @@ public class User {
         this.lastName = lastName;
     }
     
-    public Byte[] getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
     
-    public void setPhoto(Byte[] photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
     

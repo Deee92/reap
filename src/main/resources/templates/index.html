@@ -1,11 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
 <!DOCTYPE html >
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/my-fragments :: header-fragment">
 <body>
 <div th:replace="fragments/my-fragments :: navbar-fragment"></div>
-</body>
+<div class="container mx-auto my-5 p-4" style="background: #fff; width: 70%;">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab"
+               aria-controls="nav-login" aria-selected="true">Login</a>
+            <a class="nav-item nav-link" id="nav-signup-tab" data-toggle="tab" href="#nav-signup" role="tab"
+               aria-controls="nav-signup" aria-selected="false">Sign up</a>
+        </div>
+    </nav>
+    <div class="tab-content p-4" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
+            <!-- Login form -->
+            <form>
+                <div class="newer-row form-label-group">
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required
+                           autofocus>
+                </div>
+
+                <div class="newer-row form-label-group">
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                </div>
+                <div class="newer-row">
+                    <a href="#" class="small">Forgot password?</a>
+                </div>
+                <div class="newer-row">
+                    <button class="btn btn-success btn-lg btn-block" type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane fade" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
+            <!-- Signup form -->
+            <form th:action="@{/users}" method="post" th:object="${newUser}">
+                <div class="newer-row form-label-group">
+                    <input type="text" th:field="*{firstName}" id="inputFirstName" class="form-control"
+                           placeholder="First name" required
+                           autofocus>
+                </div>
+
+                <div class="newer-row form-label-group">
+                    <input type="text" th:field="*{lastName}" id="inputLastName" class="form-control"
+                           placeholder="Last name" required>
+                </div>
+                <div class="newer-row form-label-group">
+                    <input type="email" th:field="*{email}" id="inputEmail" class="form-control"
+                           placeholder="Email address" required
+                           autofocus>
+                </div>
+
+                <div class="newer-row form-label-group">
+                    <input type="password" th:field="*{password}" id="inputPassword" class="form-control"
+                           placeholder="Password" required>
+                </div>
+                <div class="custom-file form-group newer-row">
+                    <input type="file" th:field="*{photo}" class="custom-file-input form-control-file" id="inputPhoto">
+                    <label class="custom-file-label" for="inputPhoto">Choose photo</label>
+                </div>
+                <div class="newer-row">
+                    <button class="btn btn-success btn-lg btn-block" type="submit">Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div th:replace="fragments/my-fragments :: footer-fragment"></div>
 </body>
 </html>

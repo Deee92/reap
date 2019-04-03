@@ -5,7 +5,6 @@ import com.ttn.reap.exceptions.UserNotFoundException;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,13 +32,15 @@ public class UserController {
     }
     
     @PostMapping("/users")
-    ResponseEntity<User> createNewUser(@RequestBody @Valid User user) {
+    ResponseEntity<User> createNewUser(@ModelAttribute @Valid User user) {
         userService.save(user);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}").buildAndExpand(user.getId()).toUri();
+        System.out.println(user.toString());
         return ResponseEntity.created(uri).build();
     }
+    
     
     @PutMapping("/users/{id}")
     User editUser(@PathVariable Integer id, @RequestBody @Valid User user) {
