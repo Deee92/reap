@@ -11,12 +11,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @NotBlank(message = "First name cannot be blank")
     @NotNull(message = "First name must have a value")
     private String firstName;
+    @NotBlank(message = "First name cannot be blank")
     @NotNull(message = "Last name must have a value")
     private String lastName;
-    @Lob
-    private byte[] photo;
+    private String photo;
     @Email(message = "Invalid email")
     private String email;
     @Size(min = 3, message = "Password should be at least 3 characters in length")
@@ -54,11 +55,11 @@ public class User {
         this.lastName = lastName;
     }
     
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
     
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
     
@@ -132,7 +133,7 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", photo=" + Arrays.toString(photo) +
+                ", photo='" + photo + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", active=" + active +

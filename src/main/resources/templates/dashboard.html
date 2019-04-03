@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/my-fragments :: header-fragment">
+    <title>Error</title>
+</head>
+<body class="text-center">
+<h1 class="display-4">Dashboard</h1>
+<div><img class="img-fluid" th:attr="src=@{/images/error.png}"/></div>
+<a th:href="@{/}">
+    <button class="btn btn-lg btn-warning">Go Home</button>
+</a><br/>
+<span th:replace="fragments/my-fragments :: footer-fragment"></span>
+</body>
+</html>
