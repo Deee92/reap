@@ -1,5 +1,6 @@
 package com.ttn.reap.controllers;
 
+import com.ttn.reap.entities.Role;
 import com.ttn.reap.entities.User;
 import com.ttn.reap.exceptions.UserNotFoundException;
 import com.ttn.reap.services.UserService;
@@ -39,6 +40,12 @@ public class UserController {
             throw new UserNotFoundException("No user with id " + id);
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("user", optionalUser.get());
+        boolean isAdmin = optionalUser.get().getRoleSet().contains(Role.ADMIN);
+        if (isAdmin) {
+            modelAndView.addObject("isAdmin", isAdmin);
+            List<User> userList = userService.getUserList();
+            modelAndView.addObject("users", userList);
+        }
         return modelAndView;
     }
     
@@ -54,7 +61,8 @@ public class UserController {
                 byte[] bytes = file.getBytes();
                 Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
                 Files.write(path, bytes);
-                user.setPhoto(path.toString());
+                String photoPath = "/user-images/" + file.getOriginalFilename();
+                user.setPhoto(photoPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }

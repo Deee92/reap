@@ -5,7 +5,42 @@
 <div th:replace="fragments/my-fragments :: navbar-fragment"></div>
 <div class="container" id="main">
     <h1 th:text="'Hi ' + ${user.firstName}"></h1>
-    <p th:text="${user.getRoleSet().size()}"></p>
+    <div class="table-responsive">
+        <table class="text-center table table-light table-bordered" th:if="${isAdmin}">
+            <thead>
+            <tr class="table-success">
+                <th scope="col">ID</th>
+                <th scope="col">Photo</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Active</th>
+                <th scope="col">Gold</th>
+                <th scope="col">Silver</th>
+                <th scope="col">Bronze</th>
+                <th scope="col">Points</th>
+            </tr>
+            </thead>
+            <tbody th:each="user: ${users}">
+            <tr>
+                <th scope="row" th:text="${user.id}"></th>
+                <td>
+                    <img class="img-fluid user-photo" th:src="${(user.photo != null) ? user.getPhoto() : '/images/favicon.ico'}"/>
+                </td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.getRoleSet()}"></td>
+                <td th:text="${user.active}"></td>
+                <td th:text="${user.gold}"></td>
+                <td th:text="${user.silver}"></td>
+                <td th:text="${user.bronze}"></td>
+                <td th:text="${user.points}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <div th:replace="fragments/my-fragments :: footer-fragment"></div>
 </body>
