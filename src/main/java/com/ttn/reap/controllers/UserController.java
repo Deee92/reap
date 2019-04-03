@@ -4,17 +4,14 @@ import com.ttn.reap.entities.User;
 import com.ttn.reap.exceptions.UserNotFoundException;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,15 +32,19 @@ public class UserController {
     }
     
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable Integer id) {
+    public ModelAndView getUser(@PathVariable Integer id) {
         Optional<User> optionalUser = userService.getUser(id);
-        if (optionalUser.isPresent())
-            return optionalUser.get();
-        else throw new UserNotFoundException("No user with id " + id);
+        if (!optionalUser.isPresent())
+            throw new UserNotFoundException("No user with id " + id);
+        ModelAndView modelAndView = new ModelAndView("dashboard");
+        modelAndView.addObject("user", optionalUser.get());
+        return modelAndView;
     }
     
     @PostMapping("/users")
-    public ModelAndView createNewUser(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, @RequestParam("image") MultipartFile file) {
+    public ModelAndView createNewUser(@Valid @ModelAttribute("newUser") User user,
+                                      BindingResult bindingResult,
+                                      @RequestParam("image") MultipartFile file) {
         if (bindingResult.hasErrors()) {
             System.out.println("ERROR ERROR ERROR");
             return new ModelAndView("index");
@@ -58,7 +59,7 @@ public class UserController {
             }
             userService.save(user);
             System.out.println("User saved: " + user.toString());
-            return new ModelAndView("dashboard");
+            return new ModelAndView("redirect:/users/" + user.getId());
         }
     }
     
