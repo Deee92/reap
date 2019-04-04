@@ -23,9 +23,13 @@ public class User {
     @Size(min = 3, message = "Password should be at least 3 characters in length")
     private String password;
     private Boolean active = true;
-    private Integer gold = 3;
-    private Integer silver = 2;
-    private Integer bronze = 1;
+    private Integer goldShareable = 3;
+    private Integer silverShareable = 2;
+    private Integer bronzeShareable = 1;
+    private Integer goldRedeemable = 0;
+    private Integer silverRedeemable = 0;
+    private Integer bronzeRedeemable = 0;
+    
     private Integer points = 0;
     @ElementCollection
     @Enumerated(EnumType.STRING)
@@ -87,30 +91,6 @@ public class User {
         this.active = active;
     }
     
-    public Integer getGold() {
-        return gold;
-    }
-    
-    public void setGold(Integer gold) {
-        this.gold = gold;
-    }
-    
-    public Integer getSilver() {
-        return silver;
-    }
-    
-    public void setSilver(Integer silver) {
-        this.silver = silver;
-    }
-    
-    public Integer getBronze() {
-        return bronze;
-    }
-    
-    public void setBronze(Integer bronze) {
-        this.bronze = bronze;
-    }
-    
     public Set<Role> getRoleSet() {
         return roleSet;
     }
@@ -127,6 +107,54 @@ public class User {
         this.points = points;
     }
     
+    public Integer getGoldShareable() {
+        return goldShareable;
+    }
+    
+    public void setGoldShareable(Integer goldShareable) {
+        this.goldShareable = goldShareable;
+    }
+    
+    public Integer getSilverShareable() {
+        return silverShareable;
+    }
+    
+    public void setSilverShareable(Integer silverShareable) {
+        this.silverShareable = silverShareable;
+    }
+    
+    public Integer getBronzeShareable() {
+        return bronzeShareable;
+    }
+    
+    public void setBronzeShareable(Integer bronzeShareable) {
+        this.bronzeShareable = bronzeShareable;
+    }
+    
+    public Integer getGoldRedeemable() {
+        return goldRedeemable;
+    }
+    
+    public void setGoldRedeemable(Integer goldRedeemable) {
+        this.goldRedeemable = goldRedeemable;
+    }
+    
+    public Integer getSilverRedeemable() {
+        return silverRedeemable;
+    }
+    
+    public void setSilverRedeemable(Integer silverRedeemable) {
+        this.silverRedeemable = silverRedeemable;
+    }
+    
+    public Integer getBronzeRedeemable() {
+        return bronzeRedeemable;
+    }
+    
+    public void setBronzeRedeemable(Integer bronzeRedeemable) {
+        this.bronzeRedeemable = bronzeRedeemable;
+    }
+    
     @Override
     public String toString() {
         return "User{" +
@@ -137,9 +165,12 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", active=" + active +
-                ", gold=" + gold +
-                ", silver=" + silver +
-                ", bronze=" + bronze +
+                ", goldShareable=" + goldShareable +
+                ", silverShareable=" + silverShareable +
+                ", bronzeShareable=" + bronzeShareable +
+                ", goldRedeemable=" + goldRedeemable +
+                ", silverRedeemable=" + silverRedeemable +
+                ", bronzeRedeemable=" + bronzeRedeemable +
                 ", points=" + points +
                 ", roleSet=" + roleSet +
                 '}';

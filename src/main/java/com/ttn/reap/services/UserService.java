@@ -30,26 +30,26 @@ public class UserService {
     
     User setBadges(User user) {
         if (user.getRoleSet().contains(Role.PRACTICE_HEAD)) {
-            user.setGold(9);
-            user.setSilver(6);
-            user.setBronze(3);
+            user.setGoldShareable(9);
+            user.setSilverShareable(6);
+            user.setBronzeShareable(3);
         } else if (user.getRoleSet().contains(Role.SUPERVISOR)) {
-            user.setGold(6);
-            user.setSilver(3);
-            user.setBronze(2);
+            user.setGoldShareable(6);
+            user.setSilverShareable(3);
+            user.setBronzeShareable(2);
         } else {
-            user.setGold(3);
-            user.setSilver(2);
-            user.setBronze(1);
+            user.setGoldShareable(3);
+            user.setSilverShareable(2);
+            user.setBronzeShareable(1);
         }
         return user;
     }
     
     Integer calculatePoints(User user) {
         Integer points;
-        points = user.getGold() * 30
-                + user.getSilver() * 20
-                + user.getBronze() * 10;
+        points = user.getGoldRedeemable() * 30
+                + user.getSilverRedeemable() * 20
+                + user.getBronzeRedeemable() * 10;
         return points;
     }
     
