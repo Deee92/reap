@@ -32,7 +32,7 @@ public class RecognitionService {
             sendingUser.setBronzeShareable(sendingUser.getBronzeRedeemable() - 1);
             receivingUser.setBronzeRedeemable(receivingUser.getBronzeRedeemable() + 1);
         }
+        receivingUser.setPoints(userService.calculatePoints(receivingUser));
         return recognitionRepository.save(recognition);
     }
-    
 }

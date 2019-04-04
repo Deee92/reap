@@ -51,7 +51,7 @@ public class UserService {
         return user;
     }
     
-    Integer calculatePoints(User user) {
+    public Integer calculatePoints(User user) {
         Integer points;
         points = user.getGoldRedeemable() * 30
                 + user.getSilverRedeemable() * 20
