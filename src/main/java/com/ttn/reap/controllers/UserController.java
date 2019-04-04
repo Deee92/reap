@@ -4,6 +4,7 @@ import com.ttn.reap.entities.Recognition;
 import com.ttn.reap.entities.Role;
 import com.ttn.reap.entities.User;
 import com.ttn.reap.exceptions.UserNotFoundException;
+import com.ttn.reap.services.RecognitionService;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,9 @@ public class UserController {
     @Autowired
     UserService userService;
     
+    @Autowired
+    RecognitionService recognitionService;
+    
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "/home/ttn/ttn_dev/reap/src/main/resources/static/user-images/";
     
@@ -42,6 +46,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("user", optionalUser.get());
         modelAndView.addObject("recognition", new Recognition());
+        modelAndView.addObject("recognitionList", recognitionService.getListOfRecognitions());
         boolean isAdmin = optionalUser.get().getRoleSet().contains(Role.ADMIN);
         if (isAdmin) {
             modelAndView.addObject("isAdmin", isAdmin);

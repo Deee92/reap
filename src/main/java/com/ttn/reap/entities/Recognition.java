@@ -12,7 +12,6 @@ public class Recognition {
     Integer id;
     private Integer senderId;
     private Integer receiverId;
-    @Transient
     private String receiverName;
     private String badge;
     private String reason;

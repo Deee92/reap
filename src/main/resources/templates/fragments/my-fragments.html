@@ -229,68 +229,19 @@
             </span>
                     </form>
                 </div>
-                <div class="card-body">
+                <div class="card-body" th:each="recognition: ${recognitionList}">
                     <div class="row newer-row align-items-center">
                         <div class="col-sm-2 text-center">
                             <i class="far fa-user-circle"></i>
                         </div>
                         <div class="col-sm-10">
-                            <p><strong>Divya Arora</strong> has received a <img src="/images/gold.png"> from
-                                <strong>Kanchan
-                                    Sinha</strong><br/>
-                                for <em>Karma: Pat on the Back</em><br/>
-                                because <em>Lorem ipsum dolor sit amet.</em>
+                            <p><strong th:text="${recognition.getReceiverName()}"></strong>
+                                has received a <span th:text="${recognition.badge}"></span> from
+                                <strong th:text="${recognition.getSenderId()}"></strong><br/>
+                                for <em th:text="${recognition.getReason()}"></em><br/>
+                                because <em th:text="${recognition.getComment()}"></em>
                             </p>
-                            <small>1 hour ago</small>
-                        </div>
-                    </div>
-                    <div class="row newer-row align-items-center">
-                        <div class="col-sm-2 text-center">
-                            <i class="far fa-user-circle"></i>
-                        </div>
-                        <div class="col-sm-10">
-                            <p><strong>Kanchan Sinha</strong> has received a <img src="/images/silver.png"> from
-                                <strong>Divya
-                                    Arora</strong><br/>
-                                for <em>Core Value: Contribution</em><br/>
-                                because <em>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et magna
-                                    dolor. Sed mattis
-                                    purus eget augue laoreet, id aliquet nibh ullamcorper.</em>
-                            </p>
-                            <small>2 hours ago</small>
-                        </div>
-                    </div>
-                    <div class="row newer-row align-items-center">
-                        <div class="col-sm-2 text-center">
-                            <i class="far fa-user-circle"></i>
-                        </div>
-                        <div class="col-sm-10">
-                            <p><strong>Dhruv Oberoi</strong> has received a <img src="/images/bronze.png"> from
-                                <strong>Souvik
-                                    Chakraborty</strong><br/>
-                                for <em>Core Value: Diligence</em><br/>
-                                because <em>Praesent elementum pharetra leo rhoncus aliquet. Proin non ex velit. In
-                                    dignissim, velit at
-                                    accumsan facilisis, purus metus sagittis nisl, quis consectetur est nisi quis
-                                    sapien.</em>
-                            </p>
-                            <small>3 hours ago</small>
-                        </div>
-                    </div>
-                    <div class="row newer-row align-items-center">
-                        <div class="col-sm-2 text-center">
-                            <i class="far fa-user-circle"></i>
-                        </div>
-                        <div class="col-sm-10">
-                            <p><strong>Souvik Chakraborty</strong> has received a <img src="/images/bronze.png">
-                                from <strong>Dhruv
-                                    Oberoi</strong><br/>
-                                for <em>Core Value: Empathy</em><br/>
-                                because <em>Nam ullamcorper pellentesque enim, in bibendum tortor viverra eget.
-                                    Vestibulum in neque
-                                    congue, euismod purus sit amet, dictum erat.</em>
-                            </p>
-                            <small>3 hours ago</small>
+                            <small th:text="'On ' + ${recognition.getDate()}"></small>
                         </div>
                     </div>
                 </div>
@@ -331,13 +282,13 @@
                     <i class="far fa-calendar-alt"></i> Newers Board
                     <small style="text-transform: initial;">(last 7 days)</small>
                 </div>
-                <div class="card-body">
+                <div class="card-body" th:each="recognition: ${recognitionList}">
                     <div class="row newer-row justify-content-center">
                         <div class="col-3">
                             <i class="far fa-user-circle"></i>
                         </div>
                         <div class="col-9">
-                            <strong>Divya Arora</strong><br/>
+                            <strong th:text="${recognition.getReceiverName()}"></strong><br/>
                             <div class="row">
                                 <div class="col-3">
                                     <img src="/images/gold.png">
@@ -350,72 +301,6 @@
                                 <div class="col-3">
                                     <img src="/images/bronze.png">
                                     <small>0</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row newer-row justify-content-center">
-                        <div class="col-3">
-                            <i class="far fa-user-circle"></i>
-                        </div>
-                        <div class="col-9">
-                            <strong>Kanchan Sinha</strong><br/>
-                            <div class="row">
-                                <div class="col-3">
-                                    <img src="/images/gold.png">
-                                    <small>0</small>
-                                </div>
-                                <div class="col-3">
-                                    <img src="/images/silver.png">
-                                    <small>1</small>
-                                </div>
-                                <div class="col-3">
-                                    <img src="/images/bronze.png">
-                                    <small>0</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row newer-row justify-content-center">
-                        <div class="col-3">
-                            <i class="far fa-user-circle"></i>
-                        </div>
-                        <div class="col-9">
-                            <strong>Dhruv Oberoi</strong><br/>
-                            <div class="row">
-                                <div class="col-3">
-                                    <img src="/images/gold.png">
-                                    <small>0</small>
-                                </div>
-                                <div class="col-3">
-                                    <img src="/images/silver.png">
-                                    <small>0</small>
-                                </div>
-                                <div class="col-3">
-                                    <img src="/images/bronze.png">
-                                    <small>1</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row newer-row justify-content-center">
-                        <div class="col-3">
-                            <i class="far fa-user-circle"></i>
-                        </div>
-                        <div class="col-9">
-                            <strong>Souvik Chakraborty</strong><br/>
-                            <div class="row">
-                                <div class="col-3">
-                                    <img src="/images/gold.png">
-                                    <small>0</small>
-                                </div>
-                                <div class="col-3">
-                                    <img src="/images/silver.png">
-                                    <small>0</small>
-                                </div>
-                                <div class="col-3">
-                                    <img src="/images/bronze.png">
-                                    <small>1</small>
                                 </div>
                             </div>
                         </div>

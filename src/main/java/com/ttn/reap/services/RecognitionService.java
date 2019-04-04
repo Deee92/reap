@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class RecognitionService {
@@ -29,10 +30,14 @@ public class RecognitionService {
             sendingUser.setSilverShareable(sendingUser.getSilverShareable() - 1);
             receivingUser.setSilverRedeemable(receivingUser.getSilverRedeemable() + 1);
         } else if (recognition.getBadge().equals("bronze")) {
-            sendingUser.setBronzeShareable(sendingUser.getBronzeRedeemable() - 1);
+            sendingUser.setBronzeShareable(sendingUser.getBronzeShareable() - 1);
             receivingUser.setBronzeRedeemable(receivingUser.getBronzeRedeemable() + 1);
         }
         receivingUser.setPoints(userService.calculatePoints(receivingUser));
         return recognitionRepository.save(recognition);
+    }
+    
+    public List<Recognition> getListOfRecognitions() {
+        return recognitionRepository.findAll();
     }
 }
