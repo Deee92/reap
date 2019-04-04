@@ -17,6 +17,7 @@ public class UserService {
     public User save(User user) {
         User userToSave = setBadges(user);
         userToSave.setPoints(calculatePoints(userToSave));
+        userToSave.setFullName(userToSave.getFirstName() + " " + userToSave.getLastName());
         return userRepository.save(userToSave);
     }
     
@@ -51,6 +52,10 @@ public class UserService {
                 + user.getSilverRedeemable() * 20
                 + user.getBronzeRedeemable() * 10;
         return points;
+    }
+    
+    public User getUserByFullName(String fullName) {
+        return userRepository.findByFullName(fullName);
     }
     
 }

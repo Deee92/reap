@@ -1,5 +1,6 @@
 package com.ttn.reap.controllers;
 
+import com.ttn.reap.entities.Recognition;
 import com.ttn.reap.entities.Role;
 import com.ttn.reap.entities.User;
 import com.ttn.reap.exceptions.UserNotFoundException;
@@ -40,6 +41,7 @@ public class UserController {
             throw new UserNotFoundException("No user with id " + id);
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("user", optionalUser.get());
+        modelAndView.addObject("recognition", new Recognition());
         boolean isAdmin = optionalUser.get().getRoleSet().contains(Role.ADMIN);
         if (isAdmin) {
             modelAndView.addObject("isAdmin", isAdmin);

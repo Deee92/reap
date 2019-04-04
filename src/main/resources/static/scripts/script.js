@@ -9,3 +9,21 @@ $(document).ready(function () {
         console.log(fileName);
     });
 });
+
+$(document).ready(function (e) {
+    $("#recognitionForm").submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            type: 'POST',
+            url: '/recognize',
+            data: form.serialize(),
+            success: function (data) {
+                alert("user successfully recognized")
+            },
+            error: function (data) {
+                alert("failed")
+            }
+        });
+    });
+});

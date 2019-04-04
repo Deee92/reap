@@ -17,6 +17,7 @@ public class User {
     @NotBlank(message = "First name cannot be blank")
     @NotNull(message = "Last name must have a value")
     private String lastName;
+    private String fullName;
     private String photo;
     @Email(message = "Invalid email")
     private String email;
@@ -155,12 +156,21 @@ public class User {
         this.bronzeRedeemable = bronzeRedeemable;
     }
     
+    public String getFullName() {
+        return fullName;
+    }
+    
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", photo='" + photo + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
