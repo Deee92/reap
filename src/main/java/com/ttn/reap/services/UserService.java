@@ -29,6 +29,11 @@ public class UserService {
         return userRepository.findById(id);
     }
     
+    public User findUserById(Integer id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser.get();
+    }
+    
     User setBadges(User user) {
         if (user.getRoleSet().contains(Role.PRACTICE_HEAD)) {
             user.setGoldShareable(9);

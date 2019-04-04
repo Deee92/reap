@@ -120,17 +120,17 @@
                                     <option disabled selected value="">Select a Badge</option>
                                     <span th:if="${user.getGoldShareable() > 0}">
                                     <option data-thumbnail="/images/gold.png" value="gold">Gold
-                                        <small th:text="${user.getGoldShareable()}"></small>
+                                        <small th:text="'(' + ${user.getGoldShareable()} + ')'"></small>
                                     </option>
                                     </span>
                                     <span th:if="${user.getSilverShareable() > 0}">
                                     <option data-thumbnail="/images/silver.png" value="silver">Silver
-                                        <small th:text="${user.getSilverShareable()}"></small>
+                                        <small th:text="'(' + ${user.getSilverShareable()} + ')'"></small>
                                     </option>
                                     </span>
                                     <span th:if="${user.getBronzeShareable() > 0}">
                                     <option data-thumbnail="/images/bronze.png" value="bronze">Bronze
-                                        <small th:text="${user.getBronzeShareable()}"></small>
+                                        <small th:text="'(' + ${user.getBronzeShareable()} + ')'"></small>
                                     </option>
                                     </span>
                                 </select>
