@@ -36,6 +36,52 @@ public class Bootstrap {
             admin.setRoleSet(roleSet);
             userService.save(admin);
             System.out.println(admin.toString());
+            
+            System.out.println("Bootstrapping first user data");
+            User user1 = new User();
+            user1.setActive(true);
+            user1.setEmail("divya.arora@tothenew.com");
+            user1.setFirstName("Divya");
+            user1.setLastName("Arora");
+            user1.setPassword("divya");
+            Set roleSet1 = new HashSet<Role>();
+            roleSet1.add(Role.SUPERVISOR);
+            user1.setRoleSet(roleSet1);
+            userService.save(user1);
+            System.out.println(user1.toString());
+            
+            System.out.println("Bootstrapping second user data");
+            User user2 = new User();
+            user2.setActive(true);
+            user2.setEmail("dhruv.oberoi@tothenew.com");
+            user2.setFirstName("Dhruv");
+            user2.setLastName("Oberoi");
+            user2.setPassword("dhruv");
+            userService.save(user2);
+            System.out.println(user2.toString());
+            
+            System.out.println("Bootstrapping third user data");
+            User user3 = new User();
+            user3.setActive(true);
+            user3.setEmail("souvik.chakraborty@tothenew.com");
+            user3.setFirstName("Souvik");
+            user3.setLastName("Chakraborty");
+            user3.setPassword("souvik");
+            Set roleSet3 = new HashSet<Role>();
+            roleSet3.add(Role.SUPERVISOR);
+            user3.setRoleSet(roleSet3);
+            userService.save(user3);
+            System.out.println(user3.toString());
+    
+            System.out.println("Bootstrapping fourth user data");
+            User user4 = new User();
+            user4.setActive(true);
+            user4.setEmail("kanchan.sinha@tothenew.com");
+            user4.setFirstName("Kanchan");
+            user4.setLastName("Sinha");
+            user4.setPassword("kanchan");
+            userService.save(user4);
+            System.out.println(user4.toString());
         }
     }
 }
