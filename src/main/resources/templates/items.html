@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/my-fragments :: header-fragment"></head>
+<body>
+<!-- <div th:replace="fragments/my-fragments :: navbar-fragment"></div> -->
+<div class="container" id="main">
+    <h1 class="display-4">Redeemable items</h1>
+    <div class="table-responsive">
+        <table class="text-center table table-light table-bordered">
+            <thead>
+            <tr class="card-header">
+                <!-- <th scope="col">ID</th> -->
+                <th scope="col">Photo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Points worth</th>
+                <th scope="col">Quantity available</th>
+            </tr>
+            </thead>
+            <tbody th:each="item: ${itemList}">
+            <tr>
+                <!-- <th scope="row" th:text="${item.id}"></th> -->
+                <td><img class="img-fluid user-photo" th:src="${item.imageUrl}"/></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.pointsWorth}"></td>
+                <td th:text="${item.quantity}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div th:replace="fragments/my-fragments :: footer-fragment"></div>
+</body>
+</html>
