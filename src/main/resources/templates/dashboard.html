@@ -4,8 +4,9 @@
 <body>
 <div th:replace="fragments/my-fragments :: navbar-fragment"></div>
 <div class="container" id="main">
-    <h1 th:text="'Hi ' + ${user.firstName}"></h1>
+    <h1 class="display-4" th:text="'Hi ' + ${user.firstName} + '!'"></h1>
     <div th:replace="fragments/my-fragments :: user-details-fragment"></div>
+    <h1 class="display-4" th:if="${isAdmin}">User details</h1>
     <div class="table-responsive">
         <table class="text-center table table-light table-bordered" th:if="${isAdmin}">
             <thead>

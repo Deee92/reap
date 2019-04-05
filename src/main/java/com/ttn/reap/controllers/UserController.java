@@ -1,6 +1,7 @@
 package com.ttn.reap.controllers;
 
 import com.ttn.reap.component.LoggedInUser;
+import com.ttn.reap.component.RecognitionSearch;
 import com.ttn.reap.entities.Recognition;
 import com.ttn.reap.entities.Role;
 import com.ttn.reap.entities.User;
@@ -48,6 +49,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("user", optionalUser.get());
         modelAndView.addObject("recognition", new Recognition());
+        modelAndView.addObject("recognitionSearch", new RecognitionSearch());
         modelAndView.addObject("recognitionList", recognitionService.getListOfRecognitions());
         boolean isAdmin = optionalUser.get().getRoleSet().contains(Role.ADMIN);
         if (isAdmin) {
@@ -97,4 +99,24 @@ public class UserController {
             return "redirect:/";
         } else return "redirect:/users/" + optionalUser.get().getId();
     }
+    
+    @GetMapping("/searchRecognitionByName")
+    @ResponseBody
+    public List<Recognition> getRecognitionsByName(@ModelAttribute("recognitionSearch") RecognitionSearch recognitionSearch) {
+        System.out.println(recognitionService.getRecognitionsByName(recognitionSearch.getFullName()));
+        return recognitionService.getRecognitionsByName(recognitionSearch.getFullName());
+    }
+    
+    /*
+      @GetMapping("/searchRecognitionByName")
+    public ModelAndView getRecognitionsByName(@ModelAttribute("recognitionSearch") RecognitionSearch recognitionSearch) {
+        ModelAndView modelAndView = new ModelAndView("fragments/found-recognitions-fragments");
+        System.out.println(recognitionService.getRecognitionsByName(recognitionSearch.getFullName()));
+        List<Recognition> recognitionList = recognitionService.getRecognitionsByName(recognitionSearch.getFullName());
+        modelAndView.addObject("recognitionList", recognitionList);
+        return modelAndView;
+    }
+    
+     */
+    
 }

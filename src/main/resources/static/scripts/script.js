@@ -1,7 +1,3 @@
-$(window).on('load', function () {
-    $('#exampleModalCenter').modal('show');
-});
-
 $(document).ready(function () {
     $('input[type="file"]').change(function (e) {
         var fileName = e.target.files[0].name;
@@ -19,7 +15,7 @@ $(document).ready(function (e) {
             url: '/recognize',
             data: form.serialize(),
             success: function (data) {
-                alert("user successfully recognized")
+                // alert("User recognized!")
                 document.write(data)
             },
             error: function (data) {
@@ -27,4 +23,33 @@ $(document).ready(function (e) {
             }
         });
     });
+
+
+    $("#searchRecognitions").submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            type: 'GET',
+            url: '/searchRecognitionByName',
+            data: form.serialize(),
+            success: function (data) {
+                console.log(data);
+                // var htmlFound = ($("#foundRecognitions").html());
+                // $("#foundRecognitions").empty();
+                // console.log($("#foundRecognitions").html());
+                data.forEach(function (recognition) {
+                    $('#receiverFound').text(recognition.receiverName);
+                    $('#badgeFound').text(recognition.badge);
+                    $('#senderFound').text(recognition.senderName);
+                    $('#reasonFound').text(recognition.reason);
+                    $('#commentFound').text(recognition.comment);
+                    $('#dateFound').text(recognition.date);
+                });
+                // $("#foundRecognitions").htmlFor()
+                $("#foundRecognitions").show();
+
+
+            }
+        })
+    })
 });

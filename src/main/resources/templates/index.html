@@ -2,7 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/my-fragments :: header-fragment"></head>
 <body>
-<div th:replace="fragments/my-fragments :: navbar-fragment"></div>
+<!-- <div th:replace="fragments/my-fragments :: navbar-fragment"></div> -->
+<nav class="navbar navbar-light bg-white navbar-expand-lg sticky-top">
+    <a class="navbar-brand" href="#">
+        <img src="/images/reap-logo.png" height="30" class="d-inline-block align-top" alt="reap-logo">
+    </a>
+    <!-- Hide on screens smaller than lg -->
+    <span class="navbar-text d-none d-lg-block">
+    <span class="reap-text" style="color: #bd3fb4">reward.</span>
+    <span class="reap-text" style="color: #004ba1">earn.</span>
+    <span class="reap-text" style="color: #f03434">acknowledge.</span>
+    <span class="reap-text" style="color: #eacb11">praise</span>
+  </span>
+</nav>
 <div class="container mx-auto my-5 p-4" style="background: #fff; width: 70%;">
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">

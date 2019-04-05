@@ -40,4 +40,8 @@ public class RecognitionService {
     public List<Recognition> getListOfRecognitions() {
         return recognitionRepository.findAll();
     }
+    
+    public List<Recognition> getRecognitionsByName(String receiverName) {
+        return recognitionRepository.findRecognitionByReceiverName(receiverName);
+    }
 }

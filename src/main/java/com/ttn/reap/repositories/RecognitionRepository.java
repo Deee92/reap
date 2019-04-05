@@ -11,5 +11,7 @@ import java.util.List;
 public interface RecognitionRepository extends CrudRepository<Recognition, Integer> {
     List<Recognition> findAll();
     
+    List<Recognition> findRecognitionByReceiverName(String receiverName);
+    
     List<Recognition> findByDateBetween(Date to, Date from);
 }
