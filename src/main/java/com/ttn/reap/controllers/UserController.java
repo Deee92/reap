@@ -1,5 +1,6 @@
 package com.ttn.reap.controllers;
 
+import com.ttn.reap.component.LoggedInUser;
 import com.ttn.reap.entities.Recognition;
 import com.ttn.reap.entities.Role;
 import com.ttn.reap.entities.User;
@@ -8,6 +9,7 @@ import com.ttn.reap.services.RecognitionService;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -85,5 +87,14 @@ public class UserController {
         if (userOptional.isPresent())
             return userService.save(user);
         else throw new UserNotFoundException("No user with id " + user);
+    }
+    
+    @PostMapping("/login")
+    public String logUserIn(@ModelAttribute("loggedInUser") LoggedInUser loggedInUser) {
+        System.out.println(loggedInUser);
+        Optional<User> optionalUser = userService.findUserByEmailAndPassword(loggedInUser.getEmail(), loggedInUser.getPassword());
+        if (!optionalUser.isPresent()) {
+            return "redirect:/";
+        } else return "redirect:/users/" + optionalUser.get().getId();
     }
 }

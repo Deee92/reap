@@ -1,5 +1,6 @@
 package com.ttn.reap.controllers;
 
+import com.ttn.reap.component.LoggedInUser;
 import com.ttn.reap.entities.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ public class IndexController {
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("newUser", new User());
+        modelAndView.addObject("loggedInUser", new LoggedInUser());
         return modelAndView;
     }
 }

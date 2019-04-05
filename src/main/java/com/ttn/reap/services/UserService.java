@@ -63,4 +63,7 @@ public class UserService {
         return userRepository.findByFullName(fullName);
     }
     
+    public Optional<User> findUserByEmailAndPassword(String email, String password) {
+        return userRepository.findByEmailAndPassword(email, password);
+    }
 }
