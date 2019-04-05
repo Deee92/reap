@@ -19,6 +19,9 @@ public class User {
     private String lastName;
     private String fullName;
     private String photo;
+    @NotNull
+    @NotBlank
+    @Column(unique = true)
     @Email(message = "Invalid email")
     private String email;
     @Size(min = 3, message = "Password should be at least 3 characters in length")

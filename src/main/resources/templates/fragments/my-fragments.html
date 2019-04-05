@@ -105,6 +105,7 @@
                     <!-- Recognition form -->
                     <form id="recognitionForm" th:action="@{/recognize}" method="post" th:object="${recognition}">
                         <input type="hidden" th:value="${user.getId()}" name="senderId" id="senderId"/>
+                        <input type="hidden" th:value="${user.getFullName()}" name="senderName" id="senderName"/>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="input-group">
@@ -236,8 +237,18 @@
                         </div>
                         <div class="col-sm-10">
                             <p><strong th:text="${recognition.getReceiverName()}"></strong>
-                                has received a <span th:text="${recognition.badge}"></span> from
-                                <strong th:text="${recognition.getSenderId()}"></strong><br/>
+                                has received a
+                                <span th:if="${recognition.badge=='gold'}">
+                                    <img src="/images/gold.png">
+                                </span>
+                                <span th:if="${recognition.badge=='silver'}">
+                                    <img src="/images/silver.png">
+                                </span>
+                                <span th:if="${recognition.badge=='bronze'}">
+                                    <img src="/images/bronze.png">
+                                </span>
+                                from
+                                <strong th:text="${recognition.getSenderName()}"></strong><br/>
                                 for <em th:text="${recognition.getReason()}"></em><br/>
                                 because <em th:text="${recognition.getComment()}"></em>
                             </p>

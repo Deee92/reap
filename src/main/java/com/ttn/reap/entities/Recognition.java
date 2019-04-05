@@ -13,6 +13,7 @@ public class Recognition {
     private Integer senderId;
     private Integer receiverId;
     private String receiverName;
+    private String senderName;
     private String badge;
     private String reason;
     @NotNull
@@ -85,6 +86,14 @@ public class Recognition {
         this.receiverName = receiverName;
     }
     
+    public String getSenderName() {
+        return senderName;
+    }
+    
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+    
     @Override
     public String toString() {
         return "Recognition{" +
@@ -92,6 +101,7 @@ public class Recognition {
                 ", senderId=" + senderId +
                 ", receiverId=" + receiverId +
                 ", receiverName='" + receiverName + '\'' +
+                ", senderName='" + senderName + '\'' +
                 ", badge='" + badge + '\'' +
                 ", reason='" + reason + '\'' +
                 ", comment='" + comment + '\'' +

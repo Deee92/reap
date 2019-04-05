@@ -20,6 +20,7 @@ $(document).ready(function (e) {
             data: form.serialize(),
             success: function (data) {
                 alert("user successfully recognized")
+                document.write(data)
             },
             error: function (data) {
                 alert("failed")

@@ -21,7 +21,6 @@ public class RecognitionController {
     UserService userService;
     
     @PostMapping("/recognize")
-    @ResponseBody
     public String recognizeNewer(@Valid @ModelAttribute("recognition") Recognition recognition) {
         String receiverName = recognition.getReceiverName();
         System.out.println("Receiver name: " + receiverName);
@@ -29,6 +28,6 @@ public class RecognitionController {
         recognition.setReceiverId(receivingUser.getId());
         recognitionService.createRecognition(recognition);
         System.out.println(recognition);
-        return "success";
+        return "redirect:/users/" + recognition.getSenderId();
     }
 }
