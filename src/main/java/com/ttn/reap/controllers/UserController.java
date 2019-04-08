@@ -145,6 +145,7 @@ public class UserController {
     @PostMapping("/searchRecognitionByName")
     @ResponseBody
     public List<Recognition> getRecognitionsByName(@ModelAttribute("recognitionSearch") RecognitionSearch recognitionSearch) {
+        System.out.println(recognitionSearch);
         List<Recognition> recognitionList = recognitionService.getRecognitionsByName(recognitionSearch.getFullName());
         return recognitionList;
     }

@@ -170,33 +170,34 @@
                 </div>
             </div>
             <!-- -->
-            <!-- <div th:replace="fragments/found-recognitions-fragment :: found-recognitions-framgent"></div> -->
-
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-trophy"></i> Wall of Fame
                     <form id="searchRecognitions" th:action="@{/searchRecognitionByName}"
-                          method="post" th:object="${recognitionSearch}" style="display: inline-block"
+                          th:object="${recognitionSearch}" style="display: inline-block"
                           class="form-inline">
                         <input type="hidden" th:value="${user.getId()}" name="currentUserId" id="currentUserId"/>
                         <input type="text" id="recognizedUserName" class="form-control form-control-sm"
                                th:field="*{fullName}"
                                placeholder="Search">
-                        <button class="btn btn-success btn-sm" type="submit">Search</button>
+                        <button id="searchRecognitionButton" class="btn btn-success btn-sm" type="button">Search
+                        </button>
                     </form>
                 </div>
 
-                <div id="nameRecognition"></div>
-
-                <div class="card-body">
+                <div style="display: none" id="recognitionResults"
+                     class="alert alert-success fade show" role="alert">
+                    <h4 class="alert-heading">Search results</h4>
+                    <hr>
                     <div class="row newer-row align-items-center">
                         <div class="col-sm-2 text-center">
-                            <!-- <i class="far fa-user-circle"></i>-->
+                            <i class="far fa-user-circle"></i>
                         </div>
                         <div class="col-sm-10" id="userdataDiv">
                             <p id="userdata"></p>
                         </div>
                     </div>
+                    <p class="mb-0"></p>
                 </div>
 
                 <div class="card-body" th:each="recognition: ${recognitionList}">

@@ -32,7 +32,8 @@ $(document).ready(function (e) {
             data: form.serialize(),
             success: function (data) {
                 // alert("User recognized!")
-                document.write(data)
+                // document.write(data)
+                window.location.reload()
             },
             error: function (data) {
                 alert("failed")
@@ -40,61 +41,42 @@ $(document).ready(function (e) {
         });
     });
 
-    /*
-        $("#searchRecognitions").submit(function (e) {
-            e.preventDefault();
-            var form = $(this);
-            $.ajax({
-                type: 'POST',
-                url: '/searchRecognitionByName',
-                data: form.serialize(),
-                success: function (data) {
-                    console.log(data);
-                    // var htmlFound = ($("#foundRecognitions").html());
-                    $("#foundRecognitions").empty();
-                    // console.log($("#foundRecognitions").html());
-                    /*
-                    data.forEach(function (recognition) {
-                        $('#receiverFound').text(recognition.receiverName);
-                        $('#badgeFound').text(recognition.badge);
-                        $('#senderFound').text(recognition.senderName);
-                        $('#reasonFound').text(recognition.reason);
-                        $('#commentFound').text(recognition.comment);
-                        $('#dateFound').text(recognition.date);
-                    });
-
-                    data.forEach(function (e) {
-                        $("#foundRecognitions").append("<strong> " + e.receiverName + "</strong> has received " +
-                            e.badge + " from " + e.senderName + " on " + e.date + " for " + e.reason + "<br>")
-                    })
-                    // $("#foundRecognitions").htmlFor()
-                    $("#foundRecognitions").show();
-                    $("#recognizedUserName").val("");
-                }
-            })
-        })
-        */
-
-    $("#searchRecognitions").submit(function (e) {
-        e.preventDefault();
-        var form = $(this);
+    $("#searchRecognitionButton").click(function (e) {
+        var form = $("#searchRecognitions");
         var users = $.ajax({
             type: 'POST',
             url: '/searchRecognitionByName',
             dataType: 'json',
             data: form.serialize(),
             success: function (data) {
+                $("#recognitionResults").hide()
                 $("#userdataDiv").empty()
                 console.log(data[0].receiverName);
                 console.log(JSON.stringify(data));
                 data.forEach(function (e) {
+                    $("#recognitionResults").show()
                     console.log(e.receiverName)
-                    $("#userdataDiv").append("<strong> " + e.receiverName + "</strong> has received " +
-                        e.badge + " from " + e.senderName + " on " + e.date + " for " + e.reason + "<br>")
-                })
+                    $("#userdataDiv").append(
+                        "<strong> " +
+                        e.receiverName +
+                        "</strong> has received a " +
+                        e.badge +
+                        " from " +
+                        e.senderName +
+                        " for " +
+                        e.reason +
+                        " because " +
+                        e.comment +
+                        "<br>" +
+                        " on " + e.date +
+                        "<br>"
+                    )
+                });
                 $("#recognizedUserName").val("");
+            },
+            error: function (data) {
+                console.log("Failed to get recognized users")
             }
-        })
-    })
-
+        });
+    });
 });
