@@ -3,6 +3,7 @@ package com.ttn.reap.events;
 import com.ttn.reap.entities.Item;
 import com.ttn.reap.entities.Role;
 import com.ttn.reap.entities.User;
+import com.ttn.reap.repositories.ItemRepository;
 import com.ttn.reap.repositories.UserRepository;
 import com.ttn.reap.services.ItemService;
 import com.ttn.reap.services.UserService;
@@ -21,6 +22,9 @@ public class Bootstrap {
     
     @Autowired
     UserService userService;
+    
+    @Autowired
+    ItemRepository itemRepository;
     
     @Autowired
     ItemService itemService;
@@ -92,7 +96,9 @@ public class Bootstrap {
             user4.setPassword("kanchan");
             userService.save(user4);
             System.out.println(user4.toString());
-            
+        }
+        
+        if (!itemRepository.findAll().iterator().hasNext()) {
             System.out.println("Bootstrapping item one");
             Item item1 = new Item();
             item1.setName("To The New T-Shirt");

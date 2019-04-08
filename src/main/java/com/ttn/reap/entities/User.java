@@ -14,7 +14,7 @@ public class User {
     @NotBlank(message = "First name cannot be blank")
     @NotNull(message = "First name must have a value")
     private String firstName;
-    @NotBlank(message = "First name cannot be blank")
+    @NotBlank(message = "Last name cannot be blank")
     @NotNull(message = "Last name must have a value")
     private String lastName;
     private String fullName;

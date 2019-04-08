@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +45,17 @@ public class UserController {
     }
     
     @GetMapping("/users/{id}")
-    public ModelAndView getUser(@PathVariable Integer id) {
+    public ModelAndView getUser(@PathVariable Integer id, HttpServletRequest httpServletRequest) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("activeUser");
+        
+        try {
+            if (id != activeUser.getId())
+                return new ModelAndView("redirect:/");
+        } catch (NullPointerException ne) {
+            return new ModelAndView("redirect:/");
+        }
+        
         Optional<User> optionalUser = userService.getUser(id);
         if (!optionalUser.isPresent())
             throw new UserNotFoundException("No user with id " + id);
@@ -50,7 +63,9 @@ public class UserController {
         modelAndView.addObject("user", optionalUser.get());
         modelAndView.addObject("recognition", new Recognition());
         modelAndView.addObject("recognitionSearch", new RecognitionSearch());
-        modelAndView.addObject("recognitionList", recognitionService.getListOfRecognitions());
+        List<Recognition> recognitionList = recognitionService.getListOfRecognitions();
+        Collections.reverse(recognitionList);
+        modelAndView.addObject("recognitionList", recognitionList);
         boolean isAdmin = optionalUser.get().getRoleSet().contains(Role.ADMIN);
         if (isAdmin) {
             modelAndView.addObject("isAdmin", isAdmin);
@@ -63,11 +78,15 @@ public class UserController {
     @PostMapping("/users")
     public ModelAndView createNewUser(@Valid @ModelAttribute("newUser") User user,
                                       BindingResult bindingResult,
-                                      @RequestParam("image") MultipartFile file) {
+                                      @ModelAttribute("loggedInUser") LoggedInUser loggedInUser,
+                                      @RequestParam("image") MultipartFile file,
+                                      HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
             System.out.println("ERROR ERROR ERROR");
             return new ModelAndView("index");
         } else {
+            HttpSession httpSession = httpServletRequest.getSession();
+            httpSession.setAttribute("activeUser", user);
             try {
                 byte[] bytes = file.getBytes();
                 Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
@@ -92,19 +111,30 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public String logUserIn(@ModelAttribute("loggedInUser") LoggedInUser loggedInUser) {
+    public String logUserIn(@ModelAttribute("loggedInUser") LoggedInUser loggedInUser, HttpServletRequest httpServletRequest) {
         System.out.println(loggedInUser);
         Optional<User> optionalUser = userService.findUserByEmailAndPassword(loggedInUser.getEmail(), loggedInUser.getPassword());
         if (!optionalUser.isPresent()) {
             return "redirect:/";
-        } else return "redirect:/users/" + optionalUser.get().getId();
+        } else {
+            HttpSession httpSession = httpServletRequest.getSession();
+            httpSession.setAttribute("activeUser", optionalUser.get());
+            return "redirect:/users/" + optionalUser.get().getId();
+        }
     }
     
-    @GetMapping("/searchRecognitionByName")
+    @PostMapping("/logout")
+    public ModelAndView logUserOut(HttpServletRequest httpServletRequest) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        httpSession.invalidate();
+        return new ModelAndView("redirect:/");
+    }
+    
+    @PostMapping("/searchRecognitionByName")
     @ResponseBody
     public List<Recognition> getRecognitionsByName(@ModelAttribute("recognitionSearch") RecognitionSearch recognitionSearch) {
-        System.out.println(recognitionService.getRecognitionsByName(recognitionSearch.getFullName()));
-        return recognitionService.getRecognitionsByName(recognitionSearch.getFullName());
+        List<Recognition> recognitionList = recognitionService.getRecognitionsByName(recognitionSearch.getFullName());
+        return recognitionList;
     }
     
     /*

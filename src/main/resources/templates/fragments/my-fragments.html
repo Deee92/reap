@@ -28,6 +28,9 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/items}">Redeem points</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                    href="#"
@@ -71,7 +74,7 @@
                             <button type="button" class="btn btn-info btn-block">Guidelines</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-danger btn-block">Logout</button>
+                            <button id="logoutButton" type="button" class="btn btn-danger btn-block">Logout</button>
                         </div>
                     </div>
                 </div>
@@ -164,19 +167,34 @@
                 </div>
             </div>
             <!-- -->
-            <div th:replace="fragments/found-recognitions-fragment :: found-recognitions-framgent"></div>
+            <!-- <div th:replace="fragments/found-recognitions-fragment :: found-recognitions-framgent"></div> -->
+
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-trophy"></i> Wall of Fame
                     <form id="searchRecognitions" th:action="@{/searchRecognitionByName}"
-                          th:object="${recognitionSearch}" style="display: inline-block"
+                          method="post" th:object="${recognitionSearch}" style="display: inline-block"
                           class="form-inline">
                         <input type="hidden" th:value="${user.getId()}" name="currentUserId" id="currentUserId"/>
-                        <input type="text" class="form-control form-control-sm" th:field="*{fullName}"
+                        <input type="text" id="recognizedUserName" class="form-control form-control-sm" th:field="*{fullName}"
                                placeholder="Search">
                         <button class="btn btn-success btn-sm" type="submit">Search</button>
                     </form>
                 </div>
+
+                <div id="nameRecognition"></div>
+
+                <div  class="card-body">
+                    <div class="row newer-row align-items-center">
+                        <div class="col-sm-2 text-center">
+                            <!-- <i class="far fa-user-circle"></i>-->
+                        </div>
+                        <div class="col-sm-10" id="userdataDiv">
+                            <p id="userdata"></p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-body" th:each="recognition: ${recognitionList}">
                     <div class="row newer-row align-items-center">
                         <div class="col-sm-2 text-center">
@@ -328,5 +346,6 @@
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/scripts/script.js"></script>
-</div>jquery-3.3.1
+</div>
+jquery-3.3.1
 </html>
