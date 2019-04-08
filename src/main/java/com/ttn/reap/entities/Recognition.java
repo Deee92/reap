@@ -1,9 +1,10 @@
 package com.ttn.reap.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+
+import java.time.LocalDate;
 
 @Entity
 public class Recognition {
@@ -19,8 +20,8 @@ public class Recognition {
     @NotNull
     @NotBlank(message = "Please leave a comment")
     private String comment;
-    @Temporal(value = TemporalType.TIMESTAMP)
-    private Date date;
+    // @Temporal(value = TemporalType.DATE)
+    private LocalDate date;
     
     public Integer getId() {
         return id;
@@ -70,11 +71,11 @@ public class Recognition {
         this.comment = comment;
     }
     
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
     
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
     

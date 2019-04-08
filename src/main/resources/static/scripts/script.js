@@ -51,8 +51,6 @@ $(document).ready(function (e) {
             success: function (data) {
                 $("#recognitionResults").hide()
                 $("#userdataDiv").empty()
-                console.log(data[0].receiverName);
-                console.log(JSON.stringify(data));
                 data.forEach(function (e) {
                     $("#recognitionResults").show()
                     console.log(e.receiverName)
@@ -75,8 +73,64 @@ $(document).ready(function (e) {
                 $("#recognizedUserName").val("");
             },
             error: function (data) {
-                console.log("Failed to get recognized users")
+                console.log("Failed to get recognized users by name")
             }
         });
     });
+
+    $("#dateToday").click(function (e) {
+        console.log("Today")
+        searchDates("today")
+    })
+
+    $("#dateYesterday").click(function (e) {
+        console.log("Yesterday")
+        searchDates("yesterday")
+    })
+
+    $("#dateLast7Days").click(function (e) {
+        console.log("Last 7")
+        searchDates("last7")
+    })
+
+    $("#dateLast30Days").click(function (e) {
+        console.log("Last 30")
+        searchDates("last30")
+    })
+
+    function searchDates(dateString) {
+        console.log("Function called " + dateString)
+        console.log(dateString)
+        $.ajax({
+            type: 'GET',
+            url: '/searchRecognitionsByDate/' + dateString,
+            success: function (data) {
+                console.log("after controller");
+                $("#recognitionResults").hide()
+                $("#userdataDiv").empty()
+                data.forEach(function (e) {
+                    $("#recognitionResults").show()
+                    console.log(e.receiverName)
+                    $("#userdataDiv").append(
+                        "<strong> " +
+                        e.receiverName +
+                        "</strong> has received a " +
+                        e.badge +
+                        " from " +
+                        e.senderName +
+                        " for " +
+                        e.reason +
+                        " because " +
+                        e.comment +
+                        "<br>" +
+                        " on " + e.date +
+                        "<br>"
+                    )
+                });
+            },
+            error: function () {
+                console.log("failed to get recognized users by date");
+            }
+        })
+    }
 });

@@ -7,6 +7,9 @@ import com.ttn.reap.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +22,8 @@ public class RecognitionService {
     UserService userService;
     
     public Recognition createRecognition(Recognition recognition) {
-        recognition.setDate(new Date());
+        recognition.setDate(LocalDate.now());
+        
         System.out.println(recognition.getBadge());
         User sendingUser = userService.findUserById(recognition.getSenderId());
         User receivingUser = userService.findUserById(recognition.getReceiverId());
@@ -43,5 +47,18 @@ public class RecognitionService {
     
     public List<Recognition> getRecognitionsByName(String receiverName) {
         return recognitionRepository.findRecognitionByReceiverName(receiverName);
+    }
+    
+    public List<Recognition> getRecognitionsBetweenDates(String dateString) {
+        LocalDate today = LocalDate.now();
+        if (dateString.equals("today")) {
+            return recognitionRepository.findByDateBetween(today, today);
+        } else if (dateString.equals("yesterday")) {
+            return recognitionRepository.findByDateBetween(today.minusDays(1), today);
+        } else if (dateString.equals("last7")) {
+            return recognitionRepository.findByDateBetween(today.minusDays(7), today);
+        } else {
+            return recognitionRepository.findByDateBetween(today.minusDays(30), today);
+        }
     }
 }

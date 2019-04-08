@@ -183,6 +183,18 @@
                         <button id="searchRecognitionButton" class="btn btn-success btn-sm" type="button">Search
                         </button>
                     </form>
+                    <span class="float-right dropdown">
+                        <a href="#" role="button" id="dateDropdownLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="far fa-calendar-alt"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dateDropdownLink">
+                            <a id="dateToday" class="dropdown-item" style="text-transform: initial;">Today</a>
+                            <a id="dateYesterday" class="dropdown-item" style="text-transform: initial;">Yesterday</a>
+                            <a id="dateLast7Days" class="dropdown-item" style="text-transform: initial;">Last 7 days</a>
+                            <a id="dateLast30Days" class="dropdown-item" style="text-transform: initial;">Last 30 days</a>
+                        </div>
+                    </span>
                 </div>
 
                 <div style="display: none" id="recognitionResults"
@@ -296,18 +308,6 @@
             <div class="card">
                 <div class="card-header">
                     <i class="far fa-calendar-alt"></i> Newers Board
-                    <span class="dropdown">
-                          <a href="#" role="button" id="dateDropdownLink" data-toggle="dropdown" aria-haspopup="true"
-                             aria-expanded="false">
-                            <i class="far fa-calendar-alt"></i>
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="dateDropdownLink">
-                            <a class="dropdown-item" style="text-transform: initial;" href="#">Today</a>
-                            <a class="dropdown-item" style="text-transform: initial;" href="#">Yesterday</a>
-                            <a class="dropdown-item" style="text-transform: initial;" href="#">Last 7 days</a>
-                            <a class="dropdown-item" style="text-transform: initial;" href="#">Last 30 days</a>
-                          </div>
-                        </span>
                 </div>
                 <div class="card-body" th:each="recognition: ${recognitionList}">
                     <div class="row newer-row justify-content-center">

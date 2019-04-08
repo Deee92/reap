@@ -150,16 +150,11 @@ public class UserController {
         return recognitionList;
     }
     
-    /*
-      @GetMapping("/searchRecognitionByName")
-    public ModelAndView getRecognitionsByName(@ModelAttribute("recognitionSearch") RecognitionSearch recognitionSearch) {
-        ModelAndView modelAndView = new ModelAndView("fragments/found-recognitions-fragments");
-        System.out.println(recognitionService.getRecognitionsByName(recognitionSearch.getFullName()));
-        List<Recognition> recognitionList = recognitionService.getRecognitionsByName(recognitionSearch.getFullName());
-        modelAndView.addObject("recognitionList", recognitionList);
-        return modelAndView;
+    @GetMapping("/searchRecognitionsByDate/{date}")
+    @ResponseBody
+    public List<Recognition> getRecognitionsByDate(@PathVariable("date") String dateString) {
+        System.out.println("In controller: " + dateString);
+        List<Recognition> recognitionList = recognitionService.getRecognitionsBetweenDates(dateString);
+        return recognitionList;
     }
-    
-     */
-    
 }
