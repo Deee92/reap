@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,15 +46,22 @@ public class UserController {
     }
     
     @GetMapping("/users/{id}")
-    public ModelAndView getUser(@PathVariable Integer id, HttpServletRequest httpServletRequest) {
+    public ModelAndView getUser(@PathVariable Integer id,
+                                HttpServletRequest httpServletRequest,
+                                RedirectAttributes redirectAttributes) {
         HttpSession httpSession = httpServletRequest.getSession();
         User activeUser = (User) httpSession.getAttribute("activeUser");
         
         try {
-            if (id != activeUser.getId())
-                return new ModelAndView("redirect:/");
+            if (id != activeUser.getId()) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("error", "Please log in to continue");
+                return modelAndView;
+            }
         } catch (NullPointerException ne) {
-            return new ModelAndView("redirect:/");
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "Please log in to continue");
+            return modelAndView;
         }
         
         Optional<User> optionalUser = userService.getUser(id);
@@ -111,15 +119,19 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public String logUserIn(@ModelAttribute("loggedInUser") LoggedInUser loggedInUser, HttpServletRequest httpServletRequest) {
+    public ModelAndView logUserIn(@ModelAttribute("loggedInUser") LoggedInUser loggedInUser,
+                                  HttpServletRequest httpServletRequest,
+                                  RedirectAttributes redirectAttributes) {
         System.out.println(loggedInUser);
         Optional<User> optionalUser = userService.findUserByEmailAndPassword(loggedInUser.getEmail(), loggedInUser.getPassword());
         if (!optionalUser.isPresent()) {
-            return "redirect:/";
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "Invalid credentials");
+            return modelAndView;
         } else {
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setAttribute("activeUser", optionalUser.get());
-            return "redirect:/users/" + optionalUser.get().getId();
+            return new ModelAndView("redirect:/users/" + optionalUser.get().getId());
         }
     }
     
