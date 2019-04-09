@@ -49,15 +49,25 @@ public class PasswordController {
                     + "/reset?token=" + optionalUser.get().getResetToken());
             emailService.sendEmail(passwordResetEmail);
             ModelAndView modelAndView = new ModelAndView("redirect:/reset-password");
+            redirectAttributes.addAttribute("resetToken", optionalUser.get().getResetToken());
+            redirectAttributes.addAttribute("userEmail", optionalUser.get().getEmail());
             redirectAttributes.addFlashAttribute("success", "Email sent to " + optionalUser.get().getEmail());
             return modelAndView;
         }
     }
 
     @GetMapping("/reset-password")
-    public ModelAndView showResetPasswordPage(RedirectAttributes redirectAttributes) {
+    public ModelAndView showResetPasswordPage(RedirectAttributes redirectAttributes,
+                                              HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView("reset-password");
         redirectAttributes.addFlashAttribute("success");
+        modelAndView.addObject("resetToken", httpServletRequest.getParameter("resetToken"));
+        modelAndView.addObject("userEmail", httpServletRequest.getParameter("userEmail"));
         return modelAndView;
+    }
+
+    @PostMapping("/reset-password")
+    public void processResetPasswordForm() {
+        System.out.println("In controller: will reset password here");
     }
 }

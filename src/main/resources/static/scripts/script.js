@@ -150,5 +150,15 @@ $(document).ready(function (e) {
             })
         }
     })
+
+    $("#resetPasswordForm").submit(function (e) {
+        e.preventDefault();
+        console.log("Trying to submit password reset form")
+        if ($("#passwordField").val() === $("#confirmPasswordField").val()) {
+            console.log("Passwords match")
+        } else {
+            console.log("Passwords do not match")
+        }
+    })
 });
 
