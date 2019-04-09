@@ -66,4 +66,8 @@ public class UserService {
     public Optional<User> findUserByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
     }
+    
+    public List<User> findUserByFullNamePattern(String fullNamePattern) {
+        return userRepository.findByFullNameLike(fullNamePattern);
+    }
 }

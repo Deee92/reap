@@ -157,4 +157,12 @@ public class UserController {
         List<Recognition> recognitionList = recognitionService.getRecognitionsBetweenDates(dateString);
         return recognitionList;
     }
+    
+    @GetMapping("/autocomplete/{pattern}")
+    @ResponseBody
+    public List<User> getUsersByNamePattern(@PathVariable("pattern") String pattern) {
+        List<User> userList = userService.findUserByFullNamePattern(pattern + "%");
+        System.out.println(userList);
+        return userList;
+    }
 }

@@ -14,4 +14,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     User findByFullName(String fullName);
     
     Optional<User> findByEmailAndPassword(String email, String password);
+    
+    List<User> findByFullNameLike(String fullNamePattern);
 }
