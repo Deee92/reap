@@ -27,27 +27,46 @@
                 <th scope="col">Points</th>
             </tr>
             </thead>
-            <tbody th:each="user: ${users}">
-            <tr>
-                <th scope="row" th:text="${user.id}"></th>
-                <td>
-                    <img class="img-fluid user-photo"
-                         th:src="${(user.photo != null) ? user.getPhoto() : '/images/TTN-small.png'}"/>
-                </td>
-                <td th:text="${user.firstName}"></td>
-                <td th:text="${user.lastName}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.getRoleSet()}"></td>
-                <td th:text="${user.active}"></td>
-                <td th:text="${user.goldShareable}"></td>
-                <td th:text="${user.silverShareable}"></td>
-                <td th:text="${user.bronzeShareable}"></td>
-                <td th:text="${user.goldRedeemable}"></td>
-                <td th:text="${user.silverRedeemable}"></td>
-                <td th:text="${user.bronzeRedeemable}"></td>
-                <td th:text="${user.points}"></td>
-            </tr>
-            </tbody>
+            <form id="userDetailsForm">
+                <tbody>
+                <tr th:each="user: ${users}">
+                    <th scope="row" th:text="${user.id}"></th>
+                    <td>
+                        <img class="img-fluid user-photo"
+                             th:src="${(user.photo != null) ? user.getPhoto() : '/images/TTN-small.png'}"/>
+                    </td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <select style="width: 12em" multiple class="form-control"
+                                id="userRoleSet">
+                            <th:block th:each="userRole: ${user.getRolesAsList()}">
+                                <option th:text="${userRole}"></option>
+                            </th:block>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:checked="${user.getActive()}"/>
+                        </div>
+                    </td>
+                    <td th:text="${user.goldShareable}"></td>
+                    <td th:text="${user.silverShareable}"></td>
+                    <td th:text="${user.bronzeShareable}"></td>
+                    <td>
+                        <input style="width: 3em" type="number" min="0" th:value="${user.getGoldRedeemable()}"/>
+                    </td>
+                    <td>
+                        <input style="width: 3em" type="number" min="0" th:value="${user.getSilverRedeemable()}"/>
+                    </td>
+                    <td>
+                        <input style="width: 3em" type="number" min="0" th:value="${user.getBronzeRedeemable()}"/>
+                    </td>
+                    <td th:text="${user.points}"></td>
+                </tr>
+                </tbody>
+            </form>
         </table>
     </div>
 </div>
