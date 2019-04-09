@@ -178,7 +178,7 @@
                           class="form-inline">
                         <input type="hidden" th:value="${user.getId()}" name="currentUserId" id="currentUserId"/>
                         <input type="text" id="recognizedUserName" class="form-control form-control-sm"
-                               th:field="*{fullName}"
+                               th:field="*{fullName}" autocomplete="off"
                                placeholder="Search">
                         <button id="searchRecognitionButton" class="btn btn-success btn-sm" type="button">Search
                         </button>

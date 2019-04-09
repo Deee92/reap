@@ -134,22 +134,21 @@ $(document).ready(function (e) {
         })
     }
 
-    $("#recognizedUserName").keyup(function () {
-        var pattern = $("#recognizedUserName").val();
-        $.ajax({
-            type: 'GET',
-            url: "/autocomplete/" + pattern,
-            success: function (data) {
-                var availableUsers = []
-                data.forEach(function (e) {
-                    availableUsers.push(e.fullName)
-                })
-                console.log(availableUsers)
-                $("#recognizedUserName").autocomplete({
-                    source: availableUsers
-                });
-            }
-        })
+    $("#recognizedUserName").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                method: 'GET',
+                url: "/autocomplete",
+                data: {"pattern": $("#recognizedUserName").val()},
+                success: function (data) {
+                    var availableUsers = [];
+                    data.forEach(function (e) {
+                        availableUsers.push(e.fullName)
+                    });
+                    response(availableUsers);
+                }
+            })
+        }
     })
 });
 

@@ -158,9 +158,10 @@ public class UserController {
         return recognitionList;
     }
     
-    @GetMapping("/autocomplete/{pattern}")
+    @GetMapping("/autocomplete")
     @ResponseBody
-    public List<User> getUsersByNamePattern(@PathVariable("pattern") String pattern) {
+    public List<User> getUsersByNamePattern(@RequestParam("pattern") String pattern) {
+        System.out.println(pattern);
         List<User> userList = userService.findUserByFullNamePattern(pattern + "%");
         System.out.println(userList);
         return userList;
