@@ -13,27 +13,27 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepository userRepository;
-    
+
     public User save(User user) {
         User userToSave = setBadges(user);
         userToSave.setPoints(calculatePoints(userToSave));
         userToSave.setFullName(userToSave.getFirstName() + " " + userToSave.getLastName());
         return userRepository.save(userToSave);
     }
-    
+
     public List<User> getUserList() {
         return userRepository.findAll();
     }
-    
+
     public Optional<User> getUser(Integer id) {
         return userRepository.findById(id);
     }
-    
+
     public User findUserById(Integer id) {
         Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.get();
     }
-    
+
     User setBadges(User user) {
         if (user.getRoleSet().contains(Role.PRACTICE_HEAD)) {
             user.setGoldShareable(9);
@@ -50,7 +50,7 @@ public class UserService {
         }
         return user;
     }
-    
+
     public Integer calculatePoints(User user) {
         Integer points;
         points = user.getGoldRedeemable() * 30
@@ -58,16 +58,28 @@ public class UserService {
                 + user.getBronzeRedeemable() * 10;
         return points;
     }
-    
+
     public User getUserByFullName(String fullName) {
         return userRepository.findByFullName(fullName);
     }
-    
+
     public Optional<User> findUserByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
     }
-    
+
     public List<User> findUserByFullNamePattern(String fullNamePattern) {
         return userRepository.findByFullNameLike(fullNamePattern);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<User> findByResetToken(String resetToken) {
+        return userRepository.findByResetToken(resetToken);
+    }
+
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 }

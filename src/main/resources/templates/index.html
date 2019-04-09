@@ -24,6 +24,14 @@
             </button>
         </div>
     </div>
+    <div th:if="${success}">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong th:text="${success}"></strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab"
@@ -58,9 +66,10 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form>
+                            <form action="/forgot" method="post">
                                 <div class="newer-row form-label-group">
-                                    <input type="email" class="form-control" placeholder="Email address"
+                                    <input type="email" name="email" required class="form-control"
+                                           placeholder="Email address"
                                            autofocus>
                                 </div>
                                 <div class="newer-row">

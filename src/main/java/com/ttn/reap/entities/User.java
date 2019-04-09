@@ -24,6 +24,7 @@ public class User {
     @Column(unique = true)
     @Email(message = "Invalid email")
     private String email;
+    private String resetToken;
     @Size(min = 3, message = "Password should be at least 3 characters in length")
     private String password;
     private Boolean active = true;
@@ -167,6 +168,14 @@ public class User {
         this.fullName = fullName;
     }
     
+    public String getResetToken() {
+        return resetToken;
+    }
+    
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+    
     @Override
     public String toString() {
         return "User{" +
@@ -176,6 +185,7 @@ public class User {
                 ", fullName='" + fullName + '\'' +
                 ", photo='" + photo + '\'' +
                 ", email='" + email + '\'' +
+                ", resetToken='" + resetToken + '\'' +
                 ", password='" + password + '\'' +
                 ", active=" + active +
                 ", goldShareable=" + goldShareable +

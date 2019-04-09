@@ -16,6 +16,7 @@ public class IndexController {
         modelAndView.addObject("newUser", new User());
         modelAndView.addObject("loggedInUser", new LoggedInUser());
         redirectAttributes.addAttribute("error");
+        redirectAttributes.addAttribute("success");
         return modelAndView;
     }
 }
