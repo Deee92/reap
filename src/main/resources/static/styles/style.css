@@ -51,6 +51,15 @@ body {
     text-transform: none;
     color: #fff;
     font-size: 1.5em;
+    float: right;
+}
+
+#downloadDropdownLink {
+    text-decoration: none;
+    text-transform: none;
+    color: #fff;
+    font-size: 1.5em;
+    float: right;
 }
 
 .card-body .fa-user-circle {

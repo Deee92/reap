@@ -17,13 +17,13 @@ import java.util.List;
 public class RecognitionService {
     @Autowired
     RecognitionRepository recognitionRepository;
-    
+
     @Autowired
     UserService userService;
-    
+
     public Recognition createRecognition(Recognition recognition) {
         recognition.setDate(LocalDate.now());
-        
+
         System.out.println(recognition.getBadge());
         User sendingUser = userService.findUserById(recognition.getSenderId());
         User receivingUser = userService.findUserById(recognition.getReceiverId());
@@ -40,21 +40,21 @@ public class RecognitionService {
         receivingUser.setPoints(userService.calculatePoints(receivingUser));
         return recognitionRepository.save(recognition);
     }
-    
+
     public List<Recognition> getListOfRecognitions() {
         return recognitionRepository.findAll();
     }
-    
+
     public List<Recognition> getRecognitionsByName(String receiverName) {
         return recognitionRepository.findRecognitionByReceiverName(receiverName);
     }
-    
+
     public List<Recognition> getRecognitionsBetweenDates(String dateString) {
         LocalDate today = LocalDate.now();
         if (dateString.equals("today")) {
             return recognitionRepository.findByDateBetween(today, today);
         } else if (dateString.equals("yesterday")) {
-            return recognitionRepository.findByDateBetween(today.minusDays(1), today);
+            return recognitionRepository.findByDate(today.minusDays(1));
         } else if (dateString.equals("last7")) {
             return recognitionRepository.findByDateBetween(today.minusDays(7), today);
         } else {

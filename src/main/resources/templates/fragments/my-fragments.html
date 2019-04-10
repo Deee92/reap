@@ -105,7 +105,8 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="far fa-user"></i></div>
                                     </div>
-                                    <input type="text" th:field="*{receiverName}" class="form-control" required
+                                    <input type="text" id="userNameToRecognize" th:field="*{receiverName}"
+                                           class="form-control" required
                                            placeholder="Select a Newer">
                                 </div>
                             </div>
@@ -183,9 +184,25 @@
                         <button id="searchRecognitionButton" class="btn btn-success btn-sm" type="button">Search
                         </button>
                     </form>
-                    <span class="float-right dropdown">
+                    <span th:if="${isAdmin}" class="dropdown">
+                        <a href="#" role="button" id="downloadDropdownLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false" class="mx-1">
+                            <i class="far fa-save"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="downloadDropdownLink">
+                            <a id="downloadToday" th:href="@{/downloadCSV/today}" class="dropdown-item"
+                               style="text-transform: initial;">Today</a>
+                            <a id="downloadYesterday" th:href="@{/downloadCSV/yesterday}" class="dropdown-item"
+                               style="text-transform: initial;">Yesterday</a>
+                            <a id="downloadLast7Days" th:href="@{/downloadCSV/last7}" class="dropdown-item"
+                               style="text-transform: initial;">Last 7 days</a>
+                            <a id="downloadLast30Days" th:href="@{/downloadCSV/last30}" class="dropdown-item"
+                               style="text-transform: initial;">Last 30 days</a>
+                        </div>
+                    </span>
+                    <span class="dropdown">
                         <a href="#" role="button" id="dateDropdownLink" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
+                           aria-expanded="false" class="mx-1">
                             <i class="far fa-calendar-alt"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dateDropdownLink">

@@ -151,6 +151,23 @@ $(document).ready(function (e) {
         }
     })
 
+    $("#userNameToRecognize").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                method: 'GET',
+                url: "/autocomplete",
+                data: {"pattern": $("#userNameToRecognize").val()},
+                success: function (data) {
+                    var availableUsers = [];
+                    data.forEach(function (e) {
+                        availableUsers.push(e.fullName)
+                    });
+                    response(availableUsers);
+                }
+            })
+        }
+    })
+
     /*
     $("#resetPasswordForm").submit(function (e) {
         e.preventDefault();
@@ -162,5 +179,6 @@ $(document).ready(function (e) {
         }
     })
     */
+
 });
 

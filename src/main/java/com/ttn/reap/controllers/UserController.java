@@ -32,26 +32,26 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
-    
+
     @Autowired
     RecognitionService recognitionService;
-    
+
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "/home/ttn/ttn_dev/reap/src/main/resources/static/user-images/";
-    
+
     @GetMapping("/users")
     @ResponseBody
     List<User> getUserList() {
         return userService.getUserList();
     }
-    
+
     @GetMapping("/users/{id}")
     public ModelAndView getUser(@PathVariable Integer id,
                                 HttpServletRequest httpServletRequest,
                                 RedirectAttributes redirectAttributes) {
         HttpSession httpSession = httpServletRequest.getSession();
         User activeUser = (User) httpSession.getAttribute("activeUser");
-        
+
         try {
             if (id != activeUser.getId()) {
                 ModelAndView modelAndView = new ModelAndView("redirect:/");
@@ -63,7 +63,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("error", "Please log in to continue");
             return modelAndView;
         }
-        
+
         Optional<User> optionalUser = userService.getUser(id);
         if (!optionalUser.isPresent())
             throw new UserNotFoundException("No user with id " + id);
@@ -74,6 +74,7 @@ public class UserController {
         List<Recognition> recognitionList = recognitionService.getListOfRecognitions();
         Collections.reverse(recognitionList);
         modelAndView.addObject("recognitionList", recognitionList);
+        redirectAttributes.addAttribute("error");
         boolean isAdmin = optionalUser.get().getRoleSet().contains(Role.ADMIN);
         if (isAdmin) {
             modelAndView.addObject("isAdmin", isAdmin);
@@ -82,7 +83,7 @@ public class UserController {
         }
         return modelAndView;
     }
-    
+
     @PostMapping("/users")
     public ModelAndView createNewUser(@Valid @ModelAttribute("newUser") User user,
                                       BindingResult bindingResult,
@@ -109,7 +110,7 @@ public class UserController {
             return new ModelAndView("redirect:/users/" + user.getId());
         }
     }
-    
+
     @PutMapping("/users/{id}")
     public User editUser(@PathVariable Integer id, @RequestBody @Valid User user) {
         Optional<User> userOptional = userService.getUser(id);
@@ -117,7 +118,7 @@ public class UserController {
             return userService.save(user);
         else throw new UserNotFoundException("No user with id " + user);
     }
-    
+
     @PostMapping("/login")
     public ModelAndView logUserIn(@ModelAttribute("loggedInUser") LoggedInUser loggedInUser,
                                   HttpServletRequest httpServletRequest,
@@ -134,14 +135,14 @@ public class UserController {
             return new ModelAndView("redirect:/users/" + optionalUser.get().getId());
         }
     }
-    
+
     @PostMapping("/logout")
     public ModelAndView logUserOut(HttpServletRequest httpServletRequest) {
         HttpSession httpSession = httpServletRequest.getSession();
         httpSession.invalidate();
         return new ModelAndView("redirect:/");
     }
-    
+
     @PostMapping("/searchRecognitionByName")
     @ResponseBody
     public List<Recognition> getRecognitionsByName(@ModelAttribute("recognitionSearch") RecognitionSearch recognitionSearch) {
@@ -149,7 +150,7 @@ public class UserController {
         List<Recognition> recognitionList = recognitionService.getRecognitionsByName(recognitionSearch.getFullName());
         return recognitionList;
     }
-    
+
     @GetMapping("/searchRecognitionsByDate/{date}")
     @ResponseBody
     public List<Recognition> getRecognitionsByDate(@PathVariable("date") String dateString) {
@@ -157,7 +158,7 @@ public class UserController {
         List<Recognition> recognitionList = recognitionService.getRecognitionsBetweenDates(dateString);
         return recognitionList;
     }
-    
+
     @GetMapping("/autocomplete")
     @ResponseBody
     public List<User> getUsersByNamePattern(@RequestParam("pattern") String pattern) {

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -15,18 +17,25 @@ import javax.validation.Valid;
 public class RecognitionController {
     @Autowired
     RecognitionService recognitionService;
-    
+
     @Autowired
     UserService userService;
-    
+
     @PostMapping("/recognize")
-    public String recognizeNewer(@Valid @ModelAttribute("recognition") Recognition recognition) {
+    public ModelAndView recognizeNewer(@Valid @ModelAttribute("recognition") Recognition recognition,
+                                       RedirectAttributes redirectAttributes) {
         String receiverName = recognition.getReceiverName();
         System.out.println("Receiver name: " + receiverName);
         User receivingUser = userService.getUserByFullName(receiverName);
+        if (receivingUser.getId().equals(recognition.getSenderId())) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/users/" + recognition.getSenderId());
+            System.out.println("Users cannot recognize themselves");
+            redirectAttributes.addFlashAttribute("error", "Users cannot recognize themselves");
+            return modelAndView;
+        }
         recognition.setReceiverId(receivingUser.getId());
         recognitionService.createRecognition(recognition);
         System.out.println(recognition);
-        return "redirect:/users/" + recognition.getSenderId();
+        return new ModelAndView("redirect:/users/" + recognition.getSenderId());
     }
 }

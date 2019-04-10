@@ -10,8 +10,10 @@ import java.util.List;
 @Repository
 public interface RecognitionRepository extends CrudRepository<Recognition, Integer> {
     List<Recognition> findAll();
-    
+
     List<Recognition> findRecognitionByReceiverName(String receiverName);
-    
+
     List<Recognition> findByDateBetween(LocalDate fromDate, LocalDate toDate);
+
+    List<Recognition> findByDate(LocalDate date);
 }
