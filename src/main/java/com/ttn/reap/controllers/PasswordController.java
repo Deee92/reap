@@ -52,10 +52,7 @@ public class PasswordController {
             emailService.sendEmail(passwordResetEmail);
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setAttribute("userToken", optionalUser.get().getResetToken());
-            System.out.println("reset token added to session: " + optionalUser.get().getResetToken());
             ModelAndView modelAndView = new ModelAndView("redirect:/");
-            // redirectAttributes.addAttribute("resetToken", optionalUser.get().getResetToken());
-            // redirectAttributes.addAttribute("userEmail", optionalUser.get().getEmail());
             redirectAttributes.addFlashAttribute("success", "Email sent to " + optionalUser.get().getEmail());
             return modelAndView;
         }
@@ -68,20 +65,18 @@ public class PasswordController {
         ModelAndView modelAndView = new ModelAndView("reset-password");
         redirectAttributes.addFlashAttribute("success");
         HttpSession httpSession = httpServletRequest.getSession();
-        System.out.println("reset token from RequestParam: " + resetToken);
         String sessionToken = (String) httpSession.getAttribute("userToken");
-        System.out.println("reset token from session: " + httpSession.getAttribute("userToken"));
         try {
             if (!sessionToken.equals(resetToken)) {
                 ModelAndView modelAndView1 = new ModelAndView("redirect:/");
                 redirectAttributes.addFlashAttribute("error", "Invalid reset token");
+                return modelAndView1;
             }
         } catch (NullPointerException ne) {
             ModelAndView modelAndView1 = new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("error", "Unauthorized access");
+            return modelAndView1;
         }
-        // modelAndView.addObject("resetToken", httpServletRequest.getParameter("resetToken"));
-        // modelAndView.addObject("userEmail", httpServletRequest.getParameter("userEmail"));
         return modelAndView;
     }
 
@@ -89,7 +84,6 @@ public class PasswordController {
     public ModelAndView processResetPasswordForm(HttpServletRequest httpServletRequest,
                                                  @RequestParam Map<String, String> requestParams,
                                                  RedirectAttributes redirectAttributes) {
-        // System.out.println("In controller: will reset password here");
         HttpSession httpSession = httpServletRequest.getSession();
         String token = (String) httpSession.getAttribute("userToken");
         Optional<User> optionalUser = userService.findByResetToken(token);
@@ -103,9 +97,10 @@ public class PasswordController {
             redirectAttributes.addFlashAttribute("error", "Passwords must be at least three characters in length");
             return modelAndView;
         } else {
-            optionalUser.get().setPassword(requestParams.get("passwordField"));
-            optionalUser.get().setResetToken(null);
-            userService.updateUser(optionalUser.get());
+            User user = optionalUser.get();
+            user.setPassword(requestParams.get("passwordField"));
+            user.setResetToken(null);
+            userService.updateUser(user);
             httpSession.invalidate();
             ModelAndView modelAndView = new ModelAndView("redirect:/");
             redirectAttributes.addFlashAttribute("success", "Password reset successful! Please log in now.");
