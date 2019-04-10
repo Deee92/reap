@@ -151,6 +151,7 @@ $(document).ready(function (e) {
         }
     })
 
+    /*
     $("#resetPasswordForm").submit(function (e) {
         e.preventDefault();
         console.log("Trying to submit password reset form")
@@ -160,5 +161,6 @@ $(document).ready(function (e) {
             console.log("Passwords do not match")
         }
     })
+    */
 });
 
