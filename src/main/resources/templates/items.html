@@ -14,6 +14,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Points worth</th>
                 <th scope="col">Quantity available</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody th:each="item: ${itemList}">
@@ -23,6 +24,11 @@
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.pointsWorth}"></td>
                 <td th:text="${item.quantity}"></td>
+                <td>
+                    <button type="button" class="btn btn-success" th:disabled="${item.quantity lt 1}">
+                        <i style="color: white" class="fas fa-cart-plus"></i>
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>

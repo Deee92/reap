@@ -15,8 +15,8 @@
                     <i class="far fa-user-circle"></i>
                 </div>
                 <div class="col-sm-10">
-                    <p><strong th:text="${recognition.getReceiverName()}"></strong>
-                        has received a
+                    <p><strong>You </strong>
+                        received a
                         <span th:if="${recognition.badge=='gold'}">
                                     <img src="/images/gold.png">
                                 </span>
@@ -59,7 +59,7 @@
                                     <img src="/images/bronze.png">
                                 </span>
                         from
-                        <strong th:text="${recognition.getSenderName()}"></strong><br/>
+                        <strong> you</strong><br/>
                         for <em th:text="${recognition.getReason()}"></em><br/>
                         because <em th:text="${recognition.getComment()}"></em>
                     </p>

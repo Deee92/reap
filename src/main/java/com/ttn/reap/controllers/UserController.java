@@ -93,12 +93,12 @@ public class UserController {
         try {
             if (id != activeUser.getId()) {
                 ModelAndView modelAndView = new ModelAndView("redirect:/");
-                redirectAttributes.addFlashAttribute("error", "Please log in to continue");
+                redirectAttributes.addFlashAttribute("error", "Please log in to view your recognitions");
                 return modelAndView;
             }
         } catch (NullPointerException ne) {
             ModelAndView modelAndView = new ModelAndView("redirect:/");
-            redirectAttributes.addFlashAttribute("error", "Please log in to continue");
+            redirectAttributes.addFlashAttribute("error", "Please log in to view your recognitions");
             return modelAndView;
         }
         Optional<User> optionalUser = userService.getUser(id);

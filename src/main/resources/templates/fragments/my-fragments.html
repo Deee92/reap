@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <nav th:fragment="navbar-fragment" class="navbar navbar-light bg-white navbar-expand-lg sticky-top">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" th:href="@{'/users/' + ${user.getId()}}">
         <img src="/images/reap-logo.png" height="30" class="d-inline-block align-top" alt="reap-logo">
     </a>
     <!-- Hide on screens smaller than lg -->
@@ -36,6 +36,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/items}">Redeem points</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -75,13 +78,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-info btn-block">Guidelines</button>
-                        </div>
-                        <div class="col-md-6">
-                            <button id="logoutButton" type="button" class="btn btn-danger btn-block">Logout</button>
-                        </div>
+                    <div class="row m-2">
+                        <button id="logoutButton" type="button" class="btn btn-danger btn-block">Logout</button>
                     </div>
                 </div>
             </li>
@@ -116,21 +114,18 @@
                             <div class="col-md-3 mb-3">
                                 <select th:field="*{badge}" class="form-control" required>
                                     <option disabled selected value="">Select a Badge</option>
-                                    <span th:if="${user.getGoldShareable() > 0}">
-                                    <option data-thumbnail="/images/gold.png" value="gold">Gold
+                                    <option th:disabled="${user.getGoldShareable() lt 1}"
+                                            data-thumbnail="/images/gold.png" value="gold">Gold
                                         <small th:text="'(' + ${user.getGoldShareable()} + ')'"></small>
                                     </option>
-                                    </span>
-                                    <span th:if="${user.getSilverShareable() > 0}">
-                                    <option data-thumbnail="/images/silver.png" value="silver">Silver
+                                    <option th:disabled="${user.getSilverShareable() lt 1}"
+                                            data-thumbnail="/images/silver.png" value="silver">Silver
                                         <small th:text="'(' + ${user.getSilverShareable()} + ')'"></small>
                                     </option>
-                                    </span>
-                                    <span th:if="${user.getBronzeShareable() > 0}">
-                                    <option data-thumbnail="/images/bronze.png" value="bronze">Bronze
+                                    <option th:disabled="${user.getBronzeShareable() lt 1}"
+                                            data-thumbnail="/images/bronze.png" value="bronze">Bronze
                                         <small th:text="'(' + ${user.getBronzeShareable()} + ')'"></small>
                                     </option>
-                                    </span>
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
