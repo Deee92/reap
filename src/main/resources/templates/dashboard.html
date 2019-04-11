@@ -47,30 +47,30 @@
                     <td th:text="${user.firstName}"></td>
                     <td th:text="${user.lastName}"></td>
                     <td th:text="${user.email}"></td>
-                    <td th:with="roleList = ${user.getRolesAsList()}">
+                    <td th:with="roleSet = ${user.getRoleSet()}">
                         <div class="form-check">
-                            <input th:checked="${#lists.contains(roleList, T(com.ttn.reap.entities.Role).ADMIN)}"
+                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).ADMIN)}"
                                    class="form-check-input" type="checkbox" value="" id="adminCheck">
                             <label style="width: 10em" class="form-check-label" for="adminCheck">
                                 Admin
                             </label>
                         </div>
                         <div style="width: 5em" class="form-check">
-                            <input th:checked="${#lists.contains(roleList, T(com.ttn.reap.entities.Role).PRACTICE_HEAD)}"
+                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).PRACTICE_HEAD)}"
                                    class="form-check-input" type="checkbox" value="" id="practiceHeadCheck">
                             <label style="width: 10em" class="form-check-label" for="practiceHeadCheck">
                                 Practice head
                             </label>
                         </div>
                         <div style="width: 5em" class="form-check">
-                            <input th:checked="${#lists.contains(roleList, T(com.ttn.reap.entities.Role).SUPERVISOR)}"
+                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).SUPERVISOR)}"
                                    class="form-check-input" type="checkbox" value="" id="supervisorCheck">
                             <label style="width: 10em" class="form-check-label" for="supervisorCheck">
                                 Supervisor
                             </label>
                         </div>
                         <div style="width: 5em" class="form-check">
-                            <input th:checked="${#lists.contains(roleList, T(com.ttn.reap.entities.Role).USER)}"
+                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).USER)}"
                                    class="form-check-input" type="checkbox" value="" id="userCheck">
                             <label style="width: 10em" class="form-check-label" for="userCheck">
                                 User
