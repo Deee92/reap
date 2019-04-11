@@ -61,4 +61,12 @@ public class RecognitionService {
             return recognitionRepository.findByDateBetween(today.minusDays(30), today);
         }
     }
+
+    public List<Recognition> getRecognitionsByReceiverName(String receiverName) {
+        return recognitionRepository.findByReceiverName(receiverName);
+    }
+
+    public List<Recognition> getRecognitionsBySenderName(String senderName) {
+        return recognitionRepository.findBySenderName(senderName);
+    }
 }

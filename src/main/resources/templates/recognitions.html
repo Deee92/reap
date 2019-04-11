@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/my-fragments :: header-fragment"></head>
+<body>
+<div th:replace="fragments/my-fragments :: navbar-fragment"></div>
+<div class="container" id="main">
+    <h1 class="display-4">My Recognitions</h1>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-trophy"></i> Recognitions I Received
+        </div>
+        <div class="card-body" th:each="recognition: ${receivedRecognitionsList}">
+            <div class="row newer-row align-items-center">
+                <div class="col-sm-2 text-center">
+                    <i class="far fa-user-circle"></i>
+                </div>
+                <div class="col-sm-10">
+                    <p><strong th:text="${recognition.getReceiverName()}"></strong>
+                        has received a
+                        <span th:if="${recognition.badge=='gold'}">
+                                    <img src="/images/gold.png">
+                                </span>
+                        <span th:if="${recognition.badge=='silver'}">
+                                    <img src="/images/silver.png">
+                                </span>
+                        <span th:if="${recognition.badge=='bronze'}">
+                                    <img src="/images/bronze.png">
+                                </span>
+                        from
+                        <strong th:text="${recognition.getSenderName()}"></strong><br/>
+                        for <em th:text="${recognition.getReason()}"></em><br/>
+                        because <em th:text="${recognition.getComment()}"></em>
+                    </p>
+                    <small th:text="'On ' + ${recognition.getDate()}"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-trophy"></i> Recognitions I Shared
+        </div>
+        <div class="card-body" th:each="recognition: ${sentRecognitionsList}">
+            <div class="row newer-row align-items-center">
+                <div class="col-sm-2 text-center">
+                    <i class="far fa-user-circle"></i>
+                </div>
+                <div class="col-sm-10">
+                    <p><strong th:text="${recognition.getReceiverName()}"></strong>
+                        has received a
+                        <span th:if="${recognition.badge=='gold'}">
+                                    <img src="/images/gold.png">
+                                </span>
+                        <span th:if="${recognition.badge=='silver'}">
+                                    <img src="/images/silver.png">
+                                </span>
+                        <span th:if="${recognition.badge=='bronze'}">
+                                    <img src="/images/bronze.png">
+                                </span>
+                        from
+                        <strong th:text="${recognition.getSenderName()}"></strong><br/>
+                        for <em th:text="${recognition.getReason()}"></em><br/>
+                        because <em th:text="${recognition.getComment()}"></em>
+                    </p>
+                    <small th:text="'On ' + ${recognition.getDate()}"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/my-fragments :: footer-fragment"></div>
+</body>
+</html>

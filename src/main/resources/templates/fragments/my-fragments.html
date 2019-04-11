@@ -32,6 +32,9 @@
                 <a class="nav-link" th:href="@{'/users/' + ${user.getId()}}">Dashboard</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" th:href="@{'/users/' + ${user.getId()} + '/recognitions'}">My Recognitions</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" th:href="@{/items}">Redeem points</a>
             </li>
             <li class="nav-item dropdown">

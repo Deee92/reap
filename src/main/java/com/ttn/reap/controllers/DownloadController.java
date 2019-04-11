@@ -35,7 +35,12 @@ public class DownloadController {
             throw new RuntimeException("Unauthorized access");
         }
 
-        String csvFileName = "reap-recognitions.csv";
+        String csvFileName = "reap-recognitions-" + dateString + ".csv";
+
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                csvFileName);
+        response.setHeader(headerKey, headerValue);
         response.setContentType("text/csv");
 
         List<Recognition> recognitionList = recognitionService.getRecognitionsBetweenDates(dateString);

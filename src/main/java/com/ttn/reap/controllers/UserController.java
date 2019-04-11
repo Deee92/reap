@@ -84,6 +84,36 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/users/{id}/recognitions")
+    public ModelAndView getUserRecognitions(@PathVariable("id") Integer id,
+                                            HttpServletRequest httpServletRequest,
+                                            RedirectAttributes redirectAttributes) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("activeUser");
+        try {
+            if (id != activeUser.getId()) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("error", "Please log in to continue");
+                return modelAndView;
+            }
+        } catch (NullPointerException ne) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "Please log in to continue");
+            return modelAndView;
+        }
+        Optional<User> optionalUser = userService.getUser(id);
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException("No user with id " + id);
+        }
+        ModelAndView modelAndView = new ModelAndView("recognitions");
+        modelAndView.addObject("user", optionalUser.get());
+        List<Recognition> receivedRecognitionsList = recognitionService.getRecognitionsByReceiverName(optionalUser.get().getFullName());
+        modelAndView.addObject("receivedRecognitionsList", receivedRecognitionsList);
+        List<Recognition> sentRecognitionsList = recognitionService.getRecognitionsBySenderName(optionalUser.get().getFullName());
+        modelAndView.addObject("sentRecognitionsList", sentRecognitionsList);
+        return modelAndView;
+    }
+
     @PostMapping("/users")
     public ModelAndView createNewUser(@Valid @ModelAttribute("newUser") User user,
                                       BindingResult bindingResult,

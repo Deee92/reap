@@ -33,6 +33,7 @@
                 <th scope="col">Silver redeemable</th>
                 <th scope="col">Bronze redeemable</th>
                 <th scope="col">Points</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <form id="userDetailsForm">
@@ -72,6 +73,9 @@
                         <input style="width: 3em" type="number" min="0" th:value="${user.getBronzeRedeemable()}"/>
                     </td>
                     <td th:text="${user.points}"></td>
+                    <td>
+                        <button type="button" class="btn-sm btn btn-primary">Save</button>
+                    </td>
                 </tr>
                 </tbody>
             </form>
