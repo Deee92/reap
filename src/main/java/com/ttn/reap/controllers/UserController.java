@@ -24,9 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -74,6 +72,17 @@ public class UserController {
         List<Recognition> recognitionList = recognitionService.getListOfRecognitions();
         Collections.reverse(recognitionList);
         modelAndView.addObject("recognitionList", recognitionList);
+        Map<String, List<Integer>> recognizedUserRedeemableBadges = new LinkedHashMap<>();
+        Integer recognizedUserGold, recognizedUserSilver, recognizedUserBronze;
+        for (Recognition recognition : recognitionList) {
+            User recognizedUser = userService.getUserByFullName(recognition.getReceiverName());
+            recognizedUserGold = recognizedUser.getGoldRedeemable();
+            recognizedUserSilver = recognizedUser.getSilverRedeemable();
+            recognizedUserBronze = recognizedUser.getBronzeRedeemable();
+            recognizedUserRedeemableBadges.put(recognizedUser.getFullName(), Arrays.asList(recognizedUserGold, recognizedUserSilver, recognizedUserBronze));
+        }
+        // System.out.println(recognizedUserRedeemableBadges);
+        modelAndView.addObject("recognizedUserRedeemableBadges", recognizedUserRedeemableBadges);
         redirectAttributes.addAttribute("error");
         boolean isAdmin = optionalUser.get().getRoleSet().contains(Role.ADMIN);
         if (isAdmin) {

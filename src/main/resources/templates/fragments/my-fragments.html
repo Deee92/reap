@@ -325,25 +325,25 @@
                 <div class="card-header">
                     <i class="far fa-calendar-alt"></i> Newers Board
                 </div>
-                <div class="card-body" th:each="recognition: ${recognitionList}">
+                <div class="card-body" th:each="recognizedUserRedeemableBadgeEntry: ${recognizedUserRedeemableBadges}">
                     <div class="row newer-row justify-content-center">
                         <div class="col-3">
                             <i class="far fa-user-circle"></i>
                         </div>
                         <div class="col-9">
-                            <strong th:text="${recognition.getReceiverName()}"></strong><br/>
+                            <strong th:text="${recognizedUserRedeemableBadgeEntry.key}"></strong><br/>
                             <div class="row">
                                 <div class="col-3">
                                     <img src="/images/gold.png">
-                                    <small>1</small>
+                                    <small th:text="${recognizedUserRedeemableBadgeEntry.value[0]}"></small>
                                 </div>
                                 <div class="col-3">
                                     <img src="/images/silver.png">
-                                    <small>0</small>
+                                    <small th:text="${recognizedUserRedeemableBadgeEntry.value[1]}"></small>
                                 </div>
                                 <div class="col-3">
                                     <img src="/images/bronze.png">
-                                    <small>0</small>
+                                    <small th:text="${recognizedUserRedeemableBadgeEntry.value[2]}"></small>
                                 </div>
                             </div>
                         </div>
