@@ -64,7 +64,7 @@ public class UserService {
     }
 
     public Optional<User> findUserByEmailAndPassword(String email, String password) {
-        return userRepository.findByEmailAndPassword(email, password);
+        return userRepository.findByEmailAndPasswordAndActive(email, password, true);
     }
 
     public List<User> findUserByFullNamePattern(String fullNamePattern) {
