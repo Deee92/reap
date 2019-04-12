@@ -100,4 +100,16 @@ public class UserService {
         } else roleSet.add(role);
         return roleSet;
     }
+
+    public void revokeUserBadge(User user, String badge) {
+        if (badge.equals("gold")) {
+            user.setGoldRedeemable(user.getGoldRedeemable() - 1);
+        } else if (badge.equals("silver")) {
+            user.setSilverRedeemable(user.getSilverRedeemable() - 1);
+        } else {
+            user.setBronzeRedeemable(user.getBronzeRedeemable() - 1);
+        }
+        user.setPoints(calculatePoints(user));
+        userRepository.save(user);
+    }
 }

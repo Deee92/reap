@@ -75,5 +75,6 @@ public class RecognitionController {
                 "', made on " + recognition.getDate() +
                 ", has been revoked.");
         emailService.sendEmail(badgeRevokedEmail);
+        userService.revokeUserBadge(receivingUser, recognition.getBadge());
     }
 }
