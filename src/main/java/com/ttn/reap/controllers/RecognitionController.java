@@ -2,19 +2,21 @@ package com.ttn.reap.controllers;
 
 import com.ttn.reap.entities.Recognition;
 import com.ttn.reap.entities.User;
+import com.ttn.reap.services.EmailService;
 import com.ttn.reap.services.RecognitionService;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class RecognitionController {
@@ -23,6 +25,9 @@ public class RecognitionController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EmailService emailService;
 
     @PostMapping("/recognize")
     public ResponseEntity<String> recognizeNewer(@Valid @ModelAttribute("recognition") Recognition recognition,
@@ -46,5 +51,21 @@ public class RecognitionController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("myResponseHeader", "successfulRecognition");
         return new ResponseEntity<String>("User recognized!", httpHeaders, HttpStatus.OK);
+    }
+
+    @PutMapping("/recognitions/{id}")
+    @ResponseBody
+    public void revokeRecognition(@PathVariable("id") String id) {
+        Integer recognitionId = Integer.parseInt(id);
+        Recognition recognition = recognitionService.getRecognitionById(recognitionId).get();
+        recognition.setRevoked(true);
+        recognitionService.updateRecognition(recognition);
+        User receivingUser = userService.findUserById(recognition.getReceiverId());
+        SimpleMailMessage badgeRevokedEmail = new SimpleMailMessage();
+        badgeRevokedEmail.setFrom("reap-support@ttn.com");
+        badgeRevokedEmail.setTo(receivingUser.getEmail());
+        badgeRevokedEmail.setSubject("REAP - Recognition Revoked");
+        badgeRevokedEmail.setText("Your recognition " + recognition + " has been revoked");
+        emailService.sendEmail(badgeRevokedEmail);
     }
 }

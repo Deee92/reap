@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecognitionService {
@@ -82,5 +83,13 @@ public class RecognitionService {
 
     public List<Recognition> getRecognitionsBySenderId(Integer senderId) {
         return recognitionRepository.findBySenderId(senderId);
+    }
+
+    public Optional<Recognition> getRecognitionById(Integer id) {
+        return recognitionRepository.findById(id);
+    }
+
+    public void updateRecognition(Recognition recognition) {
+        recognitionRepository.save(recognition);
     }
 }

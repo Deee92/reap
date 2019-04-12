@@ -214,5 +214,21 @@ $(document).ready(function (e) {
     })
     */
 
+    $(".revokeRecognitionButtonClass").click(function (e) {
+        var answer = confirm("Are you sure you want to revoke this recognition?");
+        if (answer == true) {
+            var recognitionId = $(this).closest(".recognitionIdClass").find("input[name='recognitionIdToRevoke']").val();
+            $.ajax({
+                method: 'PUT',
+                url: "/recognitions/" + recognitionId,
+                success: function (data) {
+                    window.location.reload();
+                }
+            })
+        } else {
+            console.log("Will not revoke recognition")
+        }
+    })
+
 });
 

@@ -241,9 +241,12 @@
                         <div class="col-sm-2 text-center">
                             <i class="far fa-user-circle"></i>
                         </div>
-                        <div class="col-sm-10">
-                            <button id="revokeRecognitionButton" th:if="${isAdmin}" type="button"
-                                    class="float-right btn btn-sm btn-danger">
+                        <div class="recognitionIdClass col-sm-10">
+                            <input type="text" style="display: none" name="recognitionIdToRevoke"
+                                   th:value="${recognition.getId()}"/>
+                            <button th:if="${isAdmin}" type="button"
+                                    th:disabled="${recognition.getRevoked()}"
+                                    class="revokeRecognitionButtonClass float-right btn btn-sm btn-danger">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                             <p><strong th:text="${recognition.getReceiverName()}"></strong>
