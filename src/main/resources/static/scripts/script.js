@@ -34,7 +34,7 @@ $(document).ready(function (e) {
                 // alert("User recognized!")
                 // document.write(data)
                 // window.location.reload()
-                setTimeout(location.reload.bind(location), 2000)
+                setTimeout(location.reload.bind(location), 1500)
                 var x = xhr.getResponseHeader("myResponseHeader");
                 if (x === "doesNotExist") {
                     $("#errorAlert").append(data)

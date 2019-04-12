@@ -34,7 +34,7 @@ public class RecognitionService {
                 receivingUser.setGoldRedeemable(receivingUser.getGoldRedeemable() + 1);
             }
         } else if (recognition.getBadge().equals("silver")) {
-            if (sendingUser.getSilverRedeemable() > 0) {
+            if (sendingUser.getSilverShareable() > 0) {
                 sendingUser.setSilverShareable(sendingUser.getSilverShareable() - 1);
                 receivingUser.setSilverRedeemable(receivingUser.getSilverRedeemable() + 1);
             }
