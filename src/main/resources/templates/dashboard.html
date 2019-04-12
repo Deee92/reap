@@ -19,16 +19,13 @@
         <table class="text-center table table-light table-bordered" th:if="${isAdmin}">
             <thead>
             <tr class="table-success">
+                <th style="display: none" scope="col">ID</th>
                 <th scope="col">ID</th>
                 <th scope="col">Photo</th>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
+                <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Roles</th>
                 <th scope="col">Active</th>
-                <th scope="col">Gold shareable</th>
-                <th scope="col">Silver shareable</th>
-                <th scope="col">Bronze shareable</th>
                 <th scope="col">Gold redeemable</th>
                 <th scope="col">Silver redeemable</th>
                 <th scope="col">Bronze redeemable</th>
@@ -36,42 +33,48 @@
                 <th scope="col">Action</th>
             </tr>
             </thead>
-            <form id="userDetailsForm">
-                <tbody>
-                <tr th:each="user: ${users}">
+            <tbody>
+            <tr th:each="user: ${users}">
+                <form th:method="put" th:action="@{'/users/' + ${user.id}}" th:id="${'userDetailsForm' + user.id}">
+                    <th style="display: none" scope="row">
+                        <input hidden type="text" name="id" th:value="${user.id}"/>
+                    </th>
                     <th scope="row" th:text="${user.id}"></th>
                     <td>
                         <img class="img-fluid user-photo"
                              th:src="${(user.photo != null) ? user.getPhoto() : '/images/TTN-small.png'}"/>
                     </td>
-                    <td th:text="${user.firstName}"></td>
-                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.fullName}"></td>
                     <td th:text="${user.email}"></td>
                     <td th:with="roleSet = ${user.getRoleSet()}">
                         <div class="form-check">
-                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).ADMIN)}"
-                                   class="form-check-input" type="checkbox" value="" id="adminCheck">
+                            <input name="adminCheck"
+                                   th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).ADMIN)}"
+                                   class="form-check-input" type="checkbox" id="adminCheck">
                             <label style="width: 10em" class="form-check-label" for="adminCheck">
                                 Admin
                             </label>
                         </div>
-                        <div style="width: 5em" class="form-check">
-                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).PRACTICE_HEAD)}"
-                                   class="form-check-input" type="checkbox" value="" id="practiceHeadCheck">
+                        <div class="form-check">
+                            <input name="practiceHeadCheck"
+                                   th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).PRACTICE_HEAD)}"
+                                   class="form-check-input" type="checkbox" id="practiceHeadCheck">
                             <label style="width: 10em" class="form-check-label" for="practiceHeadCheck">
                                 Practice head
                             </label>
                         </div>
-                        <div style="width: 5em" class="form-check">
-                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).SUPERVISOR)}"
-                                   class="form-check-input" type="checkbox" value="" id="supervisorCheck">
+                        <div class="form-check">
+                            <input name="supervisorCheck"
+                                   th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).SUPERVISOR)}"
+                                   class="form-check-input" type="checkbox" id="supervisorCheck">
                             <label style="width: 10em" class="form-check-label" for="supervisorCheck">
                                 Supervisor
                             </label>
                         </div>
-                        <div style="width: 5em" class="form-check">
-                            <input th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).USER)}"
-                                   class="form-check-input" type="checkbox" value="" id="userCheck">
+                        <div class="form-check">
+                            <input name="userCheck"
+                                   th:checked="${#sets.contains(roleSet, T(com.ttn.reap.entities.Role).USER)}"
+                                   class="form-check-input" type="checkbox" id="userCheck">
                             <label style="width: 10em" class="form-check-label" for="userCheck">
                                 User
                             </label>
@@ -79,28 +82,29 @@
                     </td>
                     <td>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" th:checked="${user.getActive()}"/>
+                            <input name="active" class="form-check-input" type="checkbox"
+                                   th:checked="${user.getActive()}"/>
                         </div>
                     </td>
-                    <td th:text="${user.goldShareable}"></td>
-                    <td th:text="${user.silverShareable}"></td>
-                    <td th:text="${user.bronzeShareable}"></td>
                     <td>
-                        <input style="width: 3em" type="number" min="0" th:value="${user.getGoldRedeemable()}"/>
+                        <input name="goldRedeemable" style="width: 3em" type="number" min="0"
+                               th:value="${user.getGoldRedeemable()}"/>
                     </td>
                     <td>
-                        <input style="width: 3em" type="number" min="0" th:value="${user.getSilverRedeemable()}"/>
+                        <input name="silverRedeemable" style="width: 3em" type="number" min="0"
+                               th:value="${user.getSilverRedeemable()}"/>
                     </td>
                     <td>
-                        <input style="width: 3em" type="number" min="0" th:value="${user.getBronzeRedeemable()}"/>
+                        <input name="bronzeRedeemable" style="width: 3em" type="number" min="0"
+                               th:value="${user.getBronzeRedeemable()}"/>
                     </td>
                     <td th:text="${user.points}"></td>
                     <td>
-                        <button type="button" class="btn-sm btn btn-primary">Save</button>
+                        <button type="submit" class="btn-sm btn btn-primary">Save</button>
                     </td>
-                </tr>
-                </tbody>
-            </form>
+                </form>
+            </tr>
+            </tbody>
         </table>
     </div>
 </div>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -83,7 +84,19 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void adminEditUser(User user) {
+        User userToSave = setBadges(user);
+        userRepository.save(userToSave);
+    }
+
     public List<String> findAllEmails() {
         return userRepository.findAllEmail();
+    }
+
+    public Set<Role> roleModifier(Set<Role> roleSet, String value, Role role) {
+        if (value == null) {
+            roleSet.remove(role);
+        } else roleSet.add(role);
+        return roleSet;
     }
 }

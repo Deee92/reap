@@ -9,6 +9,7 @@ import com.ttn.reap.exceptions.UserNotFoundException;
 import com.ttn.reap.services.RecognitionService;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -157,12 +158,37 @@ public class UserController {
         }
     }
 
+    // Modify user with id {id}
     @PutMapping("/users/{id}")
-    public User editUser(@PathVariable Integer id, @RequestBody @Valid User user) {
+    public ModelAndView editUser(@PathVariable Integer id,
+                                 @RequestParam Map<String, String> requestParams,
+                                 HttpServletRequest httpServletRequest) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("activeUser");
+        if (httpSession == null) {
+            throw new RuntimeException("Unauthorized modification of users");
+        }
         Optional<User> userOptional = userService.getUser(id);
-        if (userOptional.isPresent())
-            return userService.save(user);
-        else throw new UserNotFoundException("No user with id " + user);
+        if (!userOptional.isPresent())
+            throw new UserNotFoundException("No user with id " + id);
+        User user = userOptional.get();
+        Set<Role> userRoleSet = user.getRoleSet();
+
+        if (requestParams.get("active") == null) {
+            user.setActive(false);
+        } else if (requestParams.get("active").equals("on")) {
+            user.setActive(true);
+        }
+
+        userRoleSet = userService.roleModifier(userRoleSet, requestParams.get("adminCheck"), Role.ADMIN);
+        userRoleSet = userService.roleModifier(userRoleSet, requestParams.get("practiceHeadCheck"), Role.PRACTICE_HEAD);
+        userRoleSet = userService.roleModifier(userRoleSet, requestParams.get("supervisorCheck"), Role.SUPERVISOR);
+        userRoleSet = userService.roleModifier(userRoleSet, requestParams.get("userCheck"), Role.USER);
+
+        user.setRoleSet(userRoleSet);
+        userService.adminEditUser(user);
+        ModelAndView modelAndView = new ModelAndView("redirect:/users/" + activeUser.getId());
+        return modelAndView;
     }
 
     @PostMapping("/login")
