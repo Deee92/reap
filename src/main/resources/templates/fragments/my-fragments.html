@@ -242,6 +242,10 @@
                             <i class="far fa-user-circle"></i>
                         </div>
                         <div class="col-sm-10">
+                            <button id="revokeRecognitionButton" th:if="${isAdmin}" type="button"
+                                    class="float-right btn btn-sm btn-danger">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
                             <p><strong th:text="${recognition.getReceiverName()}"></strong>
                                 has received a
                                 <span th:if="${recognition.badge=='gold'}">

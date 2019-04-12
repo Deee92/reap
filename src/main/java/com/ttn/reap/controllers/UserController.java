@@ -117,9 +117,9 @@ public class UserController {
         }
         ModelAndView modelAndView = new ModelAndView("recognitions");
         modelAndView.addObject("user", optionalUser.get());
-        List<Recognition> receivedRecognitionsList = recognitionService.getRecognitionsByReceiverName(optionalUser.get().getFullName());
+        List<Recognition> receivedRecognitionsList = recognitionService.getRecognitionsByReceiverId(optionalUser.get().getId());
         modelAndView.addObject("receivedRecognitionsList", receivedRecognitionsList);
-        List<Recognition> sentRecognitionsList = recognitionService.getRecognitionsBySenderName(optionalUser.get().getFullName());
+        List<Recognition> sentRecognitionsList = recognitionService.getRecognitionsBySenderId(optionalUser.get().getId());
         modelAndView.addObject("sentRecognitionsList", sentRecognitionsList);
         return modelAndView;
     }

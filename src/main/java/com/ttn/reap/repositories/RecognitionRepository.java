@@ -20,4 +20,8 @@ public interface RecognitionRepository extends CrudRepository<Recognition, Integ
     List<Recognition> findByReceiverName(String receiverName);
 
     List<Recognition> findBySenderName(String senderName);
+
+    List<Recognition> findBySenderId(Integer id);
+
+    List<Recognition> findByReceiverId(Integer id);
 }

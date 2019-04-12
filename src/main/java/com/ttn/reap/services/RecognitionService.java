@@ -75,4 +75,12 @@ public class RecognitionService {
     public List<Recognition> getRecognitionsBySenderName(String senderName) {
         return recognitionRepository.findBySenderName(senderName);
     }
+
+    public List<Recognition> getRecognitionsByReceiverId(Integer receiverId) {
+        return recognitionRepository.findByReceiverId(receiverId);
+    }
+
+    public List<Recognition> getRecognitionsBySenderId(Integer senderId) {
+        return recognitionRepository.findBySenderId(senderId);
+    }
 }
