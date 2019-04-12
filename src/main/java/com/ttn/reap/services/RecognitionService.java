@@ -28,14 +28,20 @@ public class RecognitionService {
         User sendingUser = userService.findUserById(recognition.getSenderId());
         User receivingUser = userService.findUserById(recognition.getReceiverId());
         if (recognition.getBadge().equals("gold")) {
-            sendingUser.setGoldShareable(sendingUser.getGoldShareable() - 1);
-            receivingUser.setGoldRedeemable(receivingUser.getGoldRedeemable() + 1);
+            if (sendingUser.getGoldShareable() > 0) {
+                sendingUser.setGoldShareable(sendingUser.getGoldShareable() - 1);
+                receivingUser.setGoldRedeemable(receivingUser.getGoldRedeemable() + 1);
+            }
         } else if (recognition.getBadge().equals("silver")) {
-            sendingUser.setSilverShareable(sendingUser.getSilverShareable() - 1);
-            receivingUser.setSilverRedeemable(receivingUser.getSilverRedeemable() + 1);
+            if (sendingUser.getSilverRedeemable() > 0) {
+                sendingUser.setSilverShareable(sendingUser.getSilverShareable() - 1);
+                receivingUser.setSilverRedeemable(receivingUser.getSilverRedeemable() + 1);
+            }
         } else if (recognition.getBadge().equals("bronze")) {
-            sendingUser.setBronzeShareable(sendingUser.getBronzeShareable() - 1);
-            receivingUser.setBronzeRedeemable(receivingUser.getBronzeRedeemable() + 1);
+            if (sendingUser.getBronzeShareable() > 0) {
+                sendingUser.setBronzeShareable(sendingUser.getBronzeShareable() - 1);
+                receivingUser.setBronzeRedeemable(receivingUser.getBronzeRedeemable() + 1);
+            }
         }
         receivingUser.setPoints(userService.calculatePoints(receivingUser));
         return recognitionRepository.save(recognition);

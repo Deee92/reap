@@ -128,11 +128,18 @@ public class UserController {
                                       BindingResult bindingResult,
                                       @ModelAttribute("loggedInUser") LoggedInUser loggedInUser,
                                       @RequestParam("image") MultipartFile file,
-                                      HttpServletRequest httpServletRequest) {
+                                      HttpServletRequest httpServletRequest,
+                                      RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             System.out.println("ERROR ERROR ERROR");
             return new ModelAndView("index");
         } else {
+            List<String> emails = userService.findAllEmails();
+            if (emails.contains(user.getEmail())) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("error", "Email already in use");
+                return modelAndView;
+            }
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setAttribute("activeUser", user);
             try {

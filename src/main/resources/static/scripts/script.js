@@ -30,15 +30,45 @@ $(document).ready(function (e) {
             type: 'POST',
             url: '/recognize',
             data: form.serialize(),
-            success: function (data) {
+            success: function (data, status, xhr) {
                 // alert("User recognized!")
                 // document.write(data)
-                window.location.reload()
+                // window.location.reload()
+                setTimeout(location.reload.bind(location), 5000)
+                var x = xhr.getResponseHeader("myResponseHeader");
+                if (x === "doesNotExist") {
+                    $("#errorAlert").append(data)
+                    $("#errorAlert").show()
+                }
+                if (x === "selfRecognition") {
+                    $("#selfRecognitionAlert").append(data)
+                    $("#selfRecognitionAlert").show()
+                }
+                if (x === "successfulRecognition") {
+                    $("#successAlert").append(data)
+                    $("#successAlert").show()
+                }
             },
             error: function (data) {
                 alert("failed")
             }
         });
+    });
+
+    $("#successAlert").click(function () {
+        window.location.reload();
+    })
+
+    $("#errorAlert").click(function () {
+        window.location.reload();
+    })
+
+    $("#selfRecognitionAlert").click(function () {
+        window.location.reload();
+    })
+
+    $("#searchRecognitions").submit(function (e) {
+        e.preventDefault();
     });
 
     $("#searchRecognitionButton").click(function (e) {
@@ -133,6 +163,10 @@ $(document).ready(function (e) {
             }
         })
     }
+
+    $("#recognitionForm").submit(function (e) {
+        e.preventDefault();
+    });
 
     $("#recognizedUserName").autocomplete({
         source: function (request, response) {
