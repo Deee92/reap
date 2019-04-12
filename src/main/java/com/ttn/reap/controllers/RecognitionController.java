@@ -61,11 +61,19 @@ public class RecognitionController {
         recognition.setRevoked(true);
         recognitionService.updateRecognition(recognition);
         User receivingUser = userService.findUserById(recognition.getReceiverId());
+        // Send recognition receiver an email on revocation of badge
         SimpleMailMessage badgeRevokedEmail = new SimpleMailMessage();
         badgeRevokedEmail.setFrom("reap-support@ttn.com");
         badgeRevokedEmail.setTo(receivingUser.getEmail());
         badgeRevokedEmail.setSubject("REAP - Recognition Revoked");
-        badgeRevokedEmail.setText("Your recognition " + recognition + " has been revoked");
+        badgeRevokedEmail.setText("Hi, " + recognition.getReceiverName() +
+                "!\nYour recognition with id " + recognition.getId() +
+                " for a " + recognition.getBadge() +
+                " badge shared by " + recognition.getSenderName() +
+                " for " + recognition.getReason() +
+                ", with comments '" + recognition.getComment() +
+                "', made on " + recognition.getDate() +
+                ", has been revoked.");
         emailService.sendEmail(badgeRevokedEmail);
     }
 }
