@@ -189,6 +189,51 @@ public class Bootstrap {
             item10.setImageUrl("/images/power-bank.jpeg");
             itemService.save(item10);
             System.out.println(item10.toString());
+
+            System.out.println("Bootstrapping item eleven");
+            Item item11 = new Item();
+            item11.setName("Sennheiser HD4.20S Over-ear Headphones");
+            item11.setPointsWorth(400);
+            item11.setQuantity(20);
+            item11.setImageUrl("/images/headphones.jpg");
+            itemService.save(item11);
+            System.out.println(item11.toString());
+
+            System.out.println("Bootstrapping item twelve");
+            Item item12 = new Item();
+            item12.setName("Paper-weight");
+            item12.setPointsWorth(50);
+            item12.setQuantity(100);
+            item12.setImageUrl("/images/paper-weight.jpg");
+            itemService.save(item12);
+            System.out.println(item12.toString());
+
+            System.out.println("Bootstrapping item thirteen");
+            Item item13 = new Item();
+            item13.setName("Desk Vases (Set of 4)");
+            item13.setPointsWorth(100);
+            item13.setQuantity(60);
+            item13.setImageUrl("/images/desk-vase.jpg");
+            itemService.save(item13);
+            System.out.println(item13.toString());
+
+            System.out.println("Bootstrapping item fourteen");
+            Item item14 = new Item();
+            item14.setName("To The New Large Coffee Mug");
+            item14.setPointsWorth(40);
+            item14.setQuantity(300);
+            item14.setImageUrl("/images/mug.jpg");
+            itemService.save(item14);
+            System.out.println(item14.toString());
+
+            System.out.println("Bootstrapping item fifteen");
+            Item item15 = new Item();
+            item15.setName("To The New Laptop Sticker");
+            item15.setPointsWorth(20);
+            item15.setQuantity(500);
+            item15.setImageUrl("/images/sticker.jpg");
+            itemService.save(item15);
+            System.out.println(item15.toString());
         }
     }
 }
