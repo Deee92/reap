@@ -186,6 +186,11 @@ public class UserController {
         userRoleSet = userService.roleModifier(userRoleSet, requestParams.get("userCheck"), Role.USER);
 
         user.setRoleSet(userRoleSet);
+
+        user.setGoldRedeemable(Integer.parseInt(requestParams.get("goldRedeemable")));
+        user.setSilverRedeemable(Integer.parseInt(requestParams.get("silverRedeemable")));
+        user.setBronzeRedeemable(Integer.parseInt(requestParams.get("bronzeRedeemable")));
+
         userService.adminEditUser(user);
         ModelAndView modelAndView = new ModelAndView("redirect:/users/" + activeUser.getId());
         return modelAndView;

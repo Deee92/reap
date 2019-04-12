@@ -86,6 +86,7 @@ public class UserService {
 
     public void adminEditUser(User user) {
         User userToSave = setBadges(user);
+        userToSave.setPoints(calculatePoints(userToSave));
         userRepository.save(userToSave);
     }
 
