@@ -241,5 +241,17 @@ $(document).ready(function (e) {
             }
         })
     })
+
+    $(".removeCartItemButton").click(function (e) {
+        var itemId = $(this).closest(".cartRow").find("input[name='cartItemId']").val();
+        console.log("Item " + itemId + " will be removed")
+        $.ajax({
+            method: 'PUT',
+            url: "/removeFromCart/" + itemId,
+            success: function (data) {
+                window.location.reload();
+            }
+        })
+    })
 });
 

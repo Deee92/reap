@@ -7,10 +7,7 @@ import com.ttn.reap.services.ItemService;
 import com.ttn.reap.services.OrderSummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +29,23 @@ public class OrderSummaryController {
         HttpSession httpSession = httpServletRequest.getSession();
         List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
         itemList.add(itemService.getItemById(itemId).get());
+    }
+
+    @PutMapping("/removeFromCart/{itemId}")
+    @ResponseBody
+    public void removeItemFromCart(@PathVariable("itemId") Integer itemId,
+                                   HttpServletRequest httpServletRequest) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
+        Item item = itemService.getItemById(itemId).get();
+        ListIterator<Item> itemListIterator = itemList.listIterator();
+        while (itemListIterator.hasNext()) {
+            if (itemListIterator.next().getId() == item.getId()) {
+                itemListIterator.remove();
+                break;
+            }
+        }
+        httpSession.setAttribute("itemList", itemList);
     }
 
     @GetMapping("/checkout")
