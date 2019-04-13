@@ -8,9 +8,7 @@ import com.ttn.reap.services.OrderSummaryService;
 import com.ttn.reap.services.RecognitionService;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -253,7 +251,10 @@ public class UserController {
         user.setBronzeRedeemable(Integer.parseInt(requestParams.get("bronzeRedeemable")));
 
         userService.adminEditUser(user);
-        ModelAndView modelAndView = new ModelAndView("redirect:/users/" + activeUser.getId());
+        // Update admin's points in the current session
+        User activeUserRefreshed = userService.findUserById(activeUser.getId());
+        httpSession.setAttribute("activeUser", activeUserRefreshed);
+        ModelAndView modelAndView = new ModelAndView("redirect:/users/" + activeUserRefreshed.getId());
         return modelAndView;
     }
 

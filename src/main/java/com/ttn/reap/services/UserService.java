@@ -124,4 +124,10 @@ public class UserService {
         user.setPoints(calculatePoints(user));
         userRepository.save(user);
     }
+
+    public void deductPointsOnCheckout(User user, Integer deductiblePoints) {
+        Integer currentPoints = user.getPoints();
+        user.setPoints(currentPoints - deductiblePoints);
+        userRepository.save(user);
+    }
 }

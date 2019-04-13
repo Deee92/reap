@@ -5,6 +5,7 @@ import com.ttn.reap.entities.OrderSummary;
 import com.ttn.reap.entities.User;
 import com.ttn.reap.services.ItemService;
 import com.ttn.reap.services.OrderSummaryService;
+import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,28 @@ public class OrderSummaryController {
     @Autowired
     OrderSummaryService orderSummaryService;
 
+    @Autowired
+    UserService userService;
+
     @PostMapping("/addToCart/{itemId}")
-    @ResponseBody
-    public void addItemToCart(@PathVariable("itemId") Integer itemId,
-                              HttpServletRequest httpServletRequest) {
+    public ModelAndView addItemToCart(@PathVariable("itemId") Integer itemId,
+                                      HttpServletRequest httpServletRequest) {
+        Item itemToAdd = itemService.getItemById(itemId).get();
         HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("activeUser");
         List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
-        itemList.add(itemService.getItemById(itemId).get());
+        Integer currentCartPointsWorth = 0;
+        for (Item item : itemList) {
+            currentCartPointsWorth += item.getPointsWorth();
+        }
+        System.out.println(activeUser.getPoints());
+        if (activeUser.getPoints() < itemToAdd.getPointsWorth() + currentCartPointsWorth) {
+            System.out.println("Not enough points");
+            ModelAndView modelAndView = new ModelAndView("redirect:/items");
+            return modelAndView;
+        }
+        itemList.add(itemToAdd);
+        return new ModelAndView("redirect:/items");
     }
 
     @PutMapping("/removeFromCart/{itemId}")
@@ -68,6 +84,7 @@ public class OrderSummaryController {
         orderSummary.setItemQuantity(itemQuantity);
         orderSummary.setTotalPointsRedeemed(totalPoints);
         orderSummaryService.save(orderSummary);
+        userService.deductPointsOnCheckout(activeUser, totalPoints);
         System.out.println(orderSummary);
         itemList.clear();
         return new ModelAndView("redirect:/users/" + activeUser.getId() + "/orders");
