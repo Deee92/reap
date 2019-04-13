@@ -60,8 +60,12 @@ public class RecognitionController {
         Recognition recognition = recognitionService.getRecognitionById(recognitionId).get();
         recognition.setRevoked(true);
         recognitionService.updateRecognition(recognition);
+        // Update receiving user's badges
         User receivingUser = userService.findUserById(recognition.getReceiverId());
-        userService.revokeUserBadge(receivingUser, recognition.getBadge());
+        userService.revokeReceivingUserBadge(receivingUser, recognition.getBadge());
+        // Update sending user's badges
+        User sendingUser = userService.findUserById(recognition.getSenderId());
+        userService.updateSendingUserBadge(sendingUser, recognition.getBadge());
         // Send recognition receiver an email on revocation of badge
         SimpleMailMessage badgeRevokedEmail = new SimpleMailMessage();
         badgeRevokedEmail.setFrom("reap-support@ttn.com");

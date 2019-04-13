@@ -101,13 +101,25 @@ public class UserService {
         return roleSet;
     }
 
-    public void revokeUserBadge(User user, String badge) {
+    public void revokeReceivingUserBadge(User user, String badge) {
         if (badge.equals("gold")) {
             user.setGoldRedeemable(user.getGoldRedeemable() - 1);
         } else if (badge.equals("silver")) {
             user.setSilverRedeemable(user.getSilverRedeemable() - 1);
         } else {
             user.setBronzeRedeemable(user.getBronzeRedeemable() - 1);
+        }
+        user.setPoints(calculatePoints(user));
+        userRepository.save(user);
+    }
+
+    public void updateSendingUserBadge(User user, String badge) {
+        if (badge.equals("gold")) {
+            user.setGoldShareable(user.getGoldShareable() + 1);
+        } else if (badge.equals("silver")) {
+            user.setSilverShareable(user.getSilverShareable() + 1);
+        } else {
+            user.setBronzeShareable(user.getBronzeShareable() + 1);
         }
         user.setPoints(calculatePoints(user));
         userRepository.save(user);
