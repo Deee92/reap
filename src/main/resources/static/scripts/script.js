@@ -228,7 +228,18 @@ $(document).ready(function (e) {
         } else {
             console.log("Will not revoke recognition")
         }
-    })
+    });
 
+    $(".addItemToCartButton").click(function (e) {
+        var itemId = $(this).closest(".itemRow").find("input[name='itemId']").val();
+        var userId = $(this).closest(".itemRow").find("input[name='userId']").val();
+        $.ajax({
+            method: 'POST',
+            url: "/addToCart/" + itemId,
+            success: function (data) {
+                alert("Item added to cart");
+            }
+        })
+    })
 });
 

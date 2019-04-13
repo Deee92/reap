@@ -2,10 +2,9 @@ package com.ttn.reap.controllers;
 
 import com.ttn.reap.component.LoggedInUser;
 import com.ttn.reap.component.RecognitionSearch;
-import com.ttn.reap.entities.Recognition;
-import com.ttn.reap.entities.Role;
-import com.ttn.reap.entities.User;
+import com.ttn.reap.entities.*;
 import com.ttn.reap.exceptions.UserNotFoundException;
+import com.ttn.reap.services.OrderSummaryService;
 import com.ttn.reap.services.RecognitionService;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,9 @@ public class UserController {
 
     @Autowired
     RecognitionService recognitionService;
+
+    @Autowired
+    OrderSummaryService orderSummaryService;
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "/home/ttn/ttn_dev/reap/src/main/resources/static/user-images/";
@@ -124,6 +126,62 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/users/{id}/cart")
+    public ModelAndView getUserCart(@PathVariable("id") Integer id,
+                                    HttpServletRequest httpServletRequest,
+                                    RedirectAttributes redirectAttributes) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("activeUser");
+        try {
+            if (id != activeUser.getId()) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("error", "Please log in to view your cart");
+                return modelAndView;
+            }
+        } catch (NullPointerException ne) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "Please log in to view your cart");
+            return modelAndView;
+        }
+        Optional<User> optionalUser = userService.getUser(id);
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException("No user with id " + id);
+        }
+        ModelAndView modelAndView = new ModelAndView("cart");
+        modelAndView.addObject("user", optionalUser.get());
+        List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
+        modelAndView.addObject("itemList", itemList);
+        return modelAndView;
+    }
+
+    @GetMapping("/users/{id}/orders")
+    public ModelAndView getOrderHistory(@PathVariable("id") Integer id,
+                                        HttpServletRequest httpServletRequest,
+                                        RedirectAttributes redirectAttributes) {
+        HttpSession httpSession = httpServletRequest.getSession();
+        User activeUser = (User) httpSession.getAttribute("activeUser");
+        try {
+            if (id != activeUser.getId()) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/");
+                redirectAttributes.addFlashAttribute("error", "Please log in to view your order history");
+                return modelAndView;
+            }
+        } catch (NullPointerException ne) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "Please log in to view your order history");
+            return modelAndView;
+        }
+        Optional<User> optionalUser = userService.getUser(id);
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException("No user with id " + id);
+        }
+        ModelAndView modelAndView = new ModelAndView("order-history");
+        modelAndView.addObject("user", optionalUser.get());
+        List<OrderSummary> orderSummaryList = orderSummaryService.getAllOrders();
+        modelAndView.addObject("orderSummaryList", orderSummaryList);
+        return modelAndView;
+    }
+
     @PostMapping("/users")
     public ModelAndView createNewUser(@Valid @ModelAttribute("newUser") User user,
                                       BindingResult bindingResult,
@@ -154,7 +212,10 @@ public class UserController {
             }
             userService.save(user);
             System.out.println("User saved: " + user.toString());
-            return new ModelAndView("redirect:/users/" + user.getId());
+            ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
+            List<Item> itemList = new ArrayList<>();
+            httpSession.setAttribute("itemList", itemList);
+            return modelAndView;
         }
     }
 
@@ -209,15 +270,20 @@ public class UserController {
         } else {
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setAttribute("activeUser", optionalUser.get());
+            List<Item> itemList = new ArrayList<>();
+            httpSession.setAttribute("itemList", itemList);
             return new ModelAndView("redirect:/users/" + optionalUser.get().getId());
         }
     }
 
     @PostMapping("/logout")
-    public ModelAndView logUserOut(HttpServletRequest httpServletRequest) {
+    public ModelAndView logUserOut(HttpServletRequest httpServletRequest,
+                                   RedirectAttributes redirectAttributes) {
         HttpSession httpSession = httpServletRequest.getSession();
         httpSession.invalidate();
-        return new ModelAndView("redirect:/");
+        ModelAndView modelAndView = new ModelAndView("redirect:/");
+        redirectAttributes.addFlashAttribute("success", "Logged out");
+        return modelAndView;
     }
 
     @PostMapping("/searchRecognitionByName")
