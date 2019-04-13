@@ -1,6 +1,5 @@
 package com.ttn.reap.services;
 
-import com.ttn.reap.entities.Item;
 import com.ttn.reap.entities.OrderSummary;
 import com.ttn.reap.repositories.OrderSummaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

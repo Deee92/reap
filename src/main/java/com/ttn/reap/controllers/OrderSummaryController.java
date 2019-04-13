@@ -26,6 +26,7 @@ public class OrderSummaryController {
     @Autowired
     UserService userService;
 
+    // Add an item to user's cart
     @PostMapping("/addToCart/{itemId}")
     public ModelAndView addItemToCart(@PathVariable("itemId") Integer itemId,
                                       HttpServletRequest httpServletRequest) {
@@ -37,7 +38,7 @@ public class OrderSummaryController {
         for (Item item : itemList) {
             currentCartPointsWorth += item.getPointsWorth();
         }
-        System.out.println(activeUser.getPoints());
+        // System.out.println(activeUser.getPoints());
         if (activeUser.getPoints() < itemToAdd.getPointsWorth() + currentCartPointsWorth) {
             System.out.println("Not enough points");
             ModelAndView modelAndView = new ModelAndView("redirect:/items");
@@ -47,6 +48,7 @@ public class OrderSummaryController {
         return new ModelAndView("redirect:/items");
     }
 
+    // Remove an item from user's cart
     @PutMapping("/removeFromCart/{itemId}")
     @ResponseBody
     public void removeItemFromCart(@PathVariable("itemId") Integer itemId,
@@ -64,6 +66,7 @@ public class OrderSummaryController {
         httpSession.setAttribute("itemList", itemList);
     }
 
+    // Create a new order with items from the cart
     @GetMapping("/checkout")
     public ModelAndView createOrder(HttpServletRequest httpServletRequest) {
         System.out.println("Checking out");
@@ -85,7 +88,7 @@ public class OrderSummaryController {
         orderSummary.setTotalPointsRedeemed(totalPoints);
         orderSummaryService.save(orderSummary);
         userService.deductPointsOnCheckout(activeUser, totalPoints);
-        System.out.println(orderSummary);
+        System.out.println("Order summary: " + orderSummary);
         itemList.clear();
         return new ModelAndView("redirect:/users/" + activeUser.getId() + "/orders");
     }

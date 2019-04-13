@@ -44,6 +44,7 @@ public class UserController {
         return userService.getUserList();
     }
 
+    // Show user dashboard
     @GetMapping("/users/{id}")
     public ModelAndView getUser(@PathVariable Integer id,
                                 HttpServletRequest httpServletRequest,
@@ -94,6 +95,7 @@ public class UserController {
         return modelAndView;
     }
 
+    // Show user recognitions
     @GetMapping("/users/{id}/recognitions")
     public ModelAndView getUserRecognitions(@PathVariable("id") Integer id,
                                             HttpServletRequest httpServletRequest,
@@ -124,6 +126,7 @@ public class UserController {
         return modelAndView;
     }
 
+    // Show user cart
     @GetMapping("/users/{id}/cart")
     public ModelAndView getUserCart(@PathVariable("id") Integer id,
                                     HttpServletRequest httpServletRequest,
@@ -152,6 +155,7 @@ public class UserController {
         return modelAndView;
     }
 
+    // Show user order history
     @GetMapping("/users/{id}/orders")
     public ModelAndView getOrderHistory(@PathVariable("id") Integer id,
                                         HttpServletRequest httpServletRequest,
@@ -180,6 +184,7 @@ public class UserController {
         return modelAndView;
     }
 
+    // Create new user
     @PostMapping("/users")
     public ModelAndView createNewUser(@Valid @ModelAttribute("newUser") User user,
                                       BindingResult bindingResult,
@@ -258,6 +263,7 @@ public class UserController {
         return modelAndView;
     }
 
+    // Log user in
     @PostMapping("/login")
     public ModelAndView logUserIn(@ModelAttribute("loggedInUser") LoggedInUser loggedInUser,
                                   HttpServletRequest httpServletRequest,
@@ -277,6 +283,7 @@ public class UserController {
         }
     }
 
+    // Log user out
     @PostMapping("/logout")
     public ModelAndView logUserOut(HttpServletRequest httpServletRequest,
                                    RedirectAttributes redirectAttributes) {
@@ -287,6 +294,7 @@ public class UserController {
         return modelAndView;
     }
 
+    // Search recognitions by receiver name
     @PostMapping("/searchRecognitionByName")
     @ResponseBody
     public List<Recognition> getRecognitionsByName(@ModelAttribute("recognitionSearch") RecognitionSearch recognitionSearch) {
@@ -295,6 +303,7 @@ public class UserController {
         return recognitionList;
     }
 
+    // Search recognitions by date
     @GetMapping("/searchRecognitionsByDate/{date}")
     @ResponseBody
     public List<Recognition> getRecognitionsByDate(@PathVariable("date") String dateString) {
@@ -303,6 +312,7 @@ public class UserController {
         return recognitionList;
     }
 
+    // Autocomplete user name
     @GetMapping("/autocomplete")
     @ResponseBody
     public List<User> getUsersByNamePattern(@RequestParam("pattern") String pattern) {

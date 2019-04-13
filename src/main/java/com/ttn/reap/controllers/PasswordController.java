@@ -27,6 +27,7 @@ public class PasswordController {
     @Autowired
     EmailService emailService;
 
+    // Send email to user with a forgotten password
     @PostMapping("/forgot")
     public ModelAndView processForgotPasswordForm(@RequestParam("email") String email,
                                                   HttpServletRequest httpServletRequest,
@@ -58,6 +59,7 @@ public class PasswordController {
         }
     }
 
+    // Show form to allow user to set a new password
     @GetMapping("/reset-password")
     public ModelAndView showResetPasswordPage(RedirectAttributes redirectAttributes,
                                               HttpServletRequest httpServletRequest,
@@ -80,6 +82,7 @@ public class PasswordController {
         return modelAndView;
     }
 
+    // Save new user password
     @PostMapping("/reset-password")
     public ModelAndView processResetPasswordForm(HttpServletRequest httpServletRequest,
                                                  @RequestParam Map<String, String> requestParams,

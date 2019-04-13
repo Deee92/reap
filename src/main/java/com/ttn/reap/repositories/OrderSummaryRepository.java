@@ -1,6 +1,5 @@
 package com.ttn.reap.repositories;
 
-import com.ttn.reap.entities.Item;
 import com.ttn.reap.entities.OrderSummary;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

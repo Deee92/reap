@@ -23,6 +23,7 @@ public class DownloadController {
     @Autowired
     RecognitionService recognitionService;
 
+    // Download CSV of recognitions found by date
     @GetMapping("/downloadCSV/{date}")
     public void downloadCSV(@PathVariable("date") String dateString,
                             HttpServletRequest request,

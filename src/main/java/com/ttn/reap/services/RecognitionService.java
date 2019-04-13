@@ -22,10 +22,10 @@ public class RecognitionService {
     @Autowired
     UserService userService;
 
+    // Create a new recognition, update sending and receiving user's badges
     public Recognition createRecognition(Recognition recognition) {
         recognition.setDate(LocalDate.now());
-
-        System.out.println(recognition.getBadge());
+        // System.out.println(recognition.getBadge());
         User sendingUser = userService.findUserById(recognition.getSenderId());
         User receivingUser = userService.findUserById(recognition.getReceiverId());
         if (recognition.getBadge().equals("gold")) {
@@ -56,6 +56,7 @@ public class RecognitionService {
         return recognitionRepository.findRecognitionByReceiverName(receiverName);
     }
 
+    // Return a list of recognitions by date
     public List<Recognition> getRecognitionsBetweenDates(String dateString) {
         LocalDate today = LocalDate.now();
         if (dateString.equals("today")) {

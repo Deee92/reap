@@ -15,6 +15,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    // Save new user with badges and points based on user's roles
     public User save(User user) {
         User userToSave = setBadges(user);
         userToSave.setPoints(calculatePoints(userToSave));
@@ -84,6 +85,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    // Update user's badges and points based on admin's modifications
     public void adminEditUser(User user) {
         User userToSave = setBadges(user);
         userToSave.setPoints(calculatePoints(userToSave));
@@ -94,6 +96,7 @@ public class UserService {
         return userRepository.findAllEmail();
     }
 
+    // Update user's roles based on admin's modifications
     public Set<Role> roleModifier(Set<Role> roleSet, String value, Role role) {
         if (value == null) {
             roleSet.remove(role);
@@ -101,6 +104,7 @@ public class UserService {
         return roleSet;
     }
 
+    // Update recognition receiver's badges on revocation of recognition
     public void revokeReceivingUserBadge(User user, String badge) {
         if (badge.equals("gold")) {
             user.setGoldRedeemable(user.getGoldRedeemable() - 1);
@@ -113,6 +117,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    // Update recognition sender's badges on revocation of recognition
     public void updateSendingUserBadge(User user, String badge) {
         if (badge.equals("gold")) {
             user.setGoldShareable(user.getGoldShareable() + 1);
@@ -125,6 +130,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    // Deduct user's points when cart is checked out
     public void deductPointsOnCheckout(User user, Integer deductiblePoints) {
         Integer currentPoints = user.getPoints();
         user.setPoints(currentPoints - deductiblePoints);

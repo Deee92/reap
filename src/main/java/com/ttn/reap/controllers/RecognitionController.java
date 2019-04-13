@@ -29,6 +29,7 @@ public class RecognitionController {
     @Autowired
     EmailService emailService;
 
+    // Create a new recognition
     @PostMapping("/recognize")
     public ResponseEntity<String> recognizeNewer(@Valid @ModelAttribute("recognition") Recognition recognition,
                                                  RedirectAttributes redirectAttributes) {
@@ -53,6 +54,7 @@ public class RecognitionController {
         return new ResponseEntity<String>("User recognized!", httpHeaders, HttpStatus.OK);
     }
 
+    // Revoke recognition
     @PutMapping("/recognitions/{id}")
     @ResponseBody
     public void revokeRecognition(@PathVariable("id") String id) {

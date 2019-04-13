@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class IndexController {
+    // Show login/sign up page
     @GetMapping("/")
     public ModelAndView index(RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView("index");
