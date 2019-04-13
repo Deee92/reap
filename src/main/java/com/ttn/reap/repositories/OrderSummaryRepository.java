@@ -12,4 +12,6 @@ public interface OrderSummaryRepository extends CrudRepository<OrderSummary, Int
     OrderSummary save(OrderSummary orderSummary);
 
     List<OrderSummary> findAll();
+
+    List<OrderSummary> findByUserId(Integer id);
 }

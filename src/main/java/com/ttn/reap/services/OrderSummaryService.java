@@ -20,4 +20,8 @@ public class OrderSummaryService {
     public List<OrderSummary> getAllOrders() {
         return orderSummaryRepository.findAll();
     }
+
+    public List<OrderSummary> getAllOrdersByUserId(Integer id) {
+        return orderSummaryRepository.findByUserId(id);
+    }
 }

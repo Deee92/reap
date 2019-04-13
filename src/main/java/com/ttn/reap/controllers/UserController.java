@@ -175,7 +175,7 @@ public class UserController {
         }
         ModelAndView modelAndView = new ModelAndView("order-history");
         modelAndView.addObject("user", optionalUser.get());
-        List<OrderSummary> orderSummaryList = orderSummaryService.getAllOrders();
+        List<OrderSummary> orderSummaryList = orderSummaryService.getAllOrdersByUserId(activeUser.getId());
         modelAndView.addObject("orderSummaryList", orderSummaryList);
         return modelAndView;
     }
