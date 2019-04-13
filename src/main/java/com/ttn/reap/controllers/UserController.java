@@ -4,6 +4,7 @@ import com.ttn.reap.component.LoggedInUser;
 import com.ttn.reap.component.RecognitionSearch;
 import com.ttn.reap.entities.*;
 import com.ttn.reap.exceptions.UserNotFoundException;
+import com.ttn.reap.services.ItemService;
 import com.ttn.reap.services.OrderSummaryService;
 import com.ttn.reap.services.RecognitionService;
 import com.ttn.reap.services.UserService;
@@ -34,6 +35,9 @@ public class UserController {
 
     @Autowired
     OrderSummaryService orderSummaryService;
+
+    @Autowired
+    ItemService itemService;
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "/home/ttn/ttn_dev/reap/src/main/resources/static/user-images/";
@@ -152,6 +156,8 @@ public class UserController {
         modelAndView.addObject("user", optionalUser.get());
         List<Item> itemList = (List<Item>) httpSession.getAttribute("itemList");
         modelAndView.addObject("itemList", itemList);
+        Integer currentCartTotal = (Integer) httpSession.getAttribute("currentCartTotal");
+        modelAndView.addObject("currentCartTotal", currentCartTotal);
         return modelAndView;
     }
 
@@ -181,6 +187,15 @@ public class UserController {
         modelAndView.addObject("user", optionalUser.get());
         List<OrderSummary> orderSummaryList = orderSummaryService.getAllOrdersByUserId(activeUser.getId());
         modelAndView.addObject("orderSummaryList", orderSummaryList);
+        List<Integer> itemIdList = new ArrayList<>();
+        Set<Item> itemSetInOrderSummaryList = new LinkedHashSet<>();
+        for (OrderSummary orderSummary : orderSummaryList) {
+            itemIdList = orderSummary.getItemIdsInOrderSummary();
+            for (Integer itemId : itemIdList) {
+                itemSetInOrderSummaryList.add(itemService.getItemById(itemId).get());
+            }
+        }
+        modelAndView.addObject("itemSetInOrderSummaryList", itemSetInOrderSummaryList);
         return modelAndView;
     }
 
@@ -218,6 +233,7 @@ public class UserController {
             ModelAndView modelAndView = new ModelAndView("redirect:/users/" + user.getId());
             List<Item> itemList = new ArrayList<>();
             httpSession.setAttribute("itemList", itemList);
+            httpSession.setAttribute("currentCartTotal", 0);
             return modelAndView;
         }
     }
@@ -279,6 +295,7 @@ public class UserController {
             httpSession.setAttribute("activeUser", optionalUser.get());
             List<Item> itemList = new ArrayList<>();
             httpSession.setAttribute("itemList", itemList);
+            httpSession.setAttribute("currentCartTotal", 0);
             return new ModelAndView("redirect:/users/" + optionalUser.get().getId());
         }
     }

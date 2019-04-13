@@ -3,7 +3,9 @@ package com.ttn.reap.entities;
 import javax.persistence.Entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -47,6 +49,14 @@ public class OrderSummary {
 
     public void setTotalPointsRedeemed(Integer totalPointsRedeemed) {
         this.totalPointsRedeemed = totalPointsRedeemed;
+    }
+
+    public List<Integer> getItemIdsInOrderSummary() {
+        List<Integer> itemIds = new ArrayList<>();
+        for (Integer key : this.getItemQuantity().keySet()) {
+            itemIds.add(key);
+        }
+        return itemIds;
     }
 
     @Override

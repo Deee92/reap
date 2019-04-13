@@ -4,34 +4,49 @@
 <body>
 <div th:replace="fragments/my-fragments :: navbar-fragment"></div>
 <div class="container" id="main">
-    <div class="card mb-3">
-        <div class="card-header">
-            <i class="fas fa-shopping-cart"></i> Order History
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="text-center table table-light table-bordered">
-                    <thead>
-                    <tr class="card-header">
-                        <th scope="col">Order ID</th>
-                        <th scope="col">Points worth</th>
-                        <th td colspan="2" scope="col">Items</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="orderSummary: ${orderSummaryList}">
-                        <td th:text="${orderSummary.getId()}"></td>
-                        <td th:text="${orderSummary.getTotalPointsRedeemed()}"></td>
-                        <th:block th:each="orderSummaryEntry: ${orderSummary.getItemQuantity()}">
-                            <td th:text="${orderSummaryEntry.key}"></td>
-                            <td th:text="${orderSummaryEntry.value}"></td>
-                        </th:block>
-                    </tr>
-                    </tbody>
-                </table>
+    <h1 class="display-4">My Orders</h1>
+    <th:block th:each="orderSummary: ${orderSummaryList}">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-shopping-cart"></i>
+                <span th:text="'Order #' + ${orderSummary.getId()}"></span>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled" th:each="itemQuantityEntry: ${orderSummary.getItemQuantity()}">
+                    <li class="media">
+                        <i class="mr-2 fas fa-tags"></i>
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1" th:text="'Item ID: ' + ${itemQuantityEntry.key}"></h5>
+                            <span th:text="'Item quantity: '+ ${itemQuantityEntry.value}"></span>
+                        </div>
+                    </li>
+                </ul>
+                <h4 th:text="'Total points redeemed: ' + ${orderSummary.getTotalPointsRedeemed()}"></h4>
             </div>
         </div>
+    </th:block>
+
+    <div class="table-responsive">
+        <table class="text-center table table-light table-bordered">
+            <thead>
+            <tr class="card-header">
+                <th scope="col">Item ID</th>
+                <th scope="col">Photo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Points worth</th>
+            </tr>
+            </thead>
+            <tbody th:each="item: ${itemSetInOrderSummaryList}">
+            <tr class="itemRow">
+                <th scope="row" th:text="${item.id}"></th>
+                <td><img class="img-fluid user-photo" th:src="${item.imageUrl}"/></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.pointsWorth}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
 </div>
 
 <div th:replace="fragments/my-fragments :: footer-fragment"></div>

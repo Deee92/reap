@@ -5,6 +5,8 @@
 <div th:replace="fragments/my-fragments :: navbar-fragment"></div>
 <div class="container" id="main">
     <h1 class="display-4" th:text="'My redeemable points: ' + ${user.getPoints()}"></h1>
+    <p class="text-muted" th:text="'Current cart total: ' + ${currentCartTotal}"></p>
+
     <div class="table-responsive">
         <table class="text-center table table-light table-bordered">
             <thead>
