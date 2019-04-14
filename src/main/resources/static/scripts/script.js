@@ -12,7 +12,7 @@ $(document).ready(function () {
             }
         })
     })
-})
+});
 
 $(document).ready(function () {
     $('input[type="file"]').change(function (e) {
@@ -57,15 +57,15 @@ $(document).ready(function (e) {
 
     $("#successAlert").click(function () {
         window.location.reload();
-    })
+    });
 
     $("#errorAlert").click(function () {
         window.location.reload();
-    })
+    });
 
     $("#selfRecognitionAlert").click(function () {
         window.location.reload();
-    })
+    });
 
     $("#searchRecognitions").submit(function (e) {
         e.preventDefault();
@@ -111,22 +111,22 @@ $(document).ready(function (e) {
     $("#dateToday").click(function (e) {
         console.log("Today")
         searchDates("today")
-    })
+    });
 
     $("#dateYesterday").click(function (e) {
         console.log("Yesterday")
         searchDates("yesterday")
-    })
+    });
 
     $("#dateLast7Days").click(function (e) {
         console.log("Last 7")
         searchDates("last7")
-    })
+    });
 
     $("#dateLast30Days").click(function (e) {
         console.log("Last 30")
         searchDates("last30")
-    })
+    });
 
     function searchDates(dateString) {
         console.log("Function called " + dateString)
@@ -183,7 +183,7 @@ $(document).ready(function (e) {
                 }
             })
         }
-    })
+    });
 
     $("#userNameToRecognize").autocomplete({
         source: function (request, response) {
@@ -200,19 +200,7 @@ $(document).ready(function (e) {
                 }
             })
         }
-    })
-
-    /*
-    $("#resetPasswordForm").submit(function (e) {
-        e.preventDefault();
-        console.log("Trying to submit password reset form")
-        if ($("#passwordField").val() === $("#confirmPasswordField").val()) {
-            console.log("Passwords match")
-        } else {
-            console.log("Passwords do not match")
-        }
-    })
-    */
+    });
 
     $(".revokeRecognitionButtonClass").click(function (e) {
         var answer = confirm("Are you sure you want to revoke this recognition?");
@@ -251,7 +239,7 @@ $(document).ready(function (e) {
 
             }
         })
-    })
+    });
 
     $("#successCartAlert").click(function () {
         window.location.reload();

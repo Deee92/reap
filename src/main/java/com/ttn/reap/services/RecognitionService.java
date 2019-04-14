@@ -3,14 +3,10 @@ package com.ttn.reap.services;
 import com.ttn.reap.entities.Recognition;
 import com.ttn.reap.entities.User;
 import com.ttn.reap.repositories.RecognitionRepository;
-import com.ttn.reap.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
