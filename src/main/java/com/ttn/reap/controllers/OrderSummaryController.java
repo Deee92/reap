@@ -7,6 +7,9 @@ import com.ttn.reap.services.ItemService;
 import com.ttn.reap.services.OrderSummaryService;
 import com.ttn.reap.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,8 +31,8 @@ public class OrderSummaryController {
 
     // Add an item to user's cart
     @PostMapping("/addToCart/{itemId}")
-    public ModelAndView addItemToCart(@PathVariable("itemId") Integer itemId,
-                                      HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> addItemToCart(@PathVariable("itemId") Integer itemId,
+                                                HttpServletRequest httpServletRequest) {
         Item itemToAdd = itemService.getItemById(itemId).get();
         HttpSession httpSession = httpServletRequest.getSession();
         User activeUser = (User) httpSession.getAttribute("activeUser");
@@ -41,12 +44,15 @@ public class OrderSummaryController {
         // System.out.println(activeUser.getPoints());
         if (activeUser.getPoints() < itemToAdd.getPointsWorth() + currentCartPointsWorth) {
             System.out.println("Not enough points");
-            ModelAndView modelAndView = new ModelAndView("redirect:/items");
-            return modelAndView;
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set("myResponseHeader", "insufficientPoints");
+            return new ResponseEntity<String>("You do not have enough redeemable points for this item", httpHeaders, HttpStatus.OK);
         }
         itemList.add(itemToAdd);
         httpSession.setAttribute("currentCartTotal", currentCartPointsWorth + itemToAdd.getPointsWorth());
-        return new ModelAndView("redirect:/items");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("myResponseHeader", "cartAddSuccessful");
+        return new ResponseEntity<String>("Item added to cart", httpHeaders, HttpStatus.OK);
     }
 
     // Remove an item from user's cart
