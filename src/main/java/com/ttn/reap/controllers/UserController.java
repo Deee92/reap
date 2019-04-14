@@ -242,7 +242,8 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ModelAndView editUser(@PathVariable Integer id,
                                  @RequestParam Map<String, String> requestParams,
-                                 HttpServletRequest httpServletRequest) {
+                                 HttpServletRequest httpServletRequest,
+                                 RedirectAttributes redirectAttributes) {
         HttpSession httpSession = httpServletRequest.getSession();
         User activeUser = (User) httpSession.getAttribute("activeUser");
         if (httpSession == null) {
@@ -272,6 +273,7 @@ public class UserController {
         user.setBronzeRedeemable(Integer.parseInt(requestParams.get("bronzeRedeemable")));
 
         userService.adminEditUser(user);
+        redirectAttributes.addFlashAttribute("successfulUpdate", "User updated");
         // Update admin's points in the current session
         User activeUserRefreshed = userService.findUserById(activeUser.getId());
         httpSession.setAttribute("activeUser", activeUserRefreshed);
