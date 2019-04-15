@@ -32,6 +32,9 @@
                         because <em th:text="${recognition.getComment()}"></em>
                     </p>
                     <small th:text="'On ' + ${recognition.getDate()}"></small>
+                    <br/>
+                    <small class="text-danger" th:if="${recognition.getRevoked()}">This recognition has been revoked
+                    </small>
                 </div>
             </div>
         </div>
@@ -64,6 +67,9 @@
                         because <em th:text="${recognition.getComment()}"></em>
                     </p>
                     <small th:text="'On ' + ${recognition.getDate()}"></small>
+                    <br/>
+                    <small class="text-danger" th:if="${recognition.getRevoked()}">This recognition has been revoked
+                    </small>
                 </div>
             </div>
         </div>
