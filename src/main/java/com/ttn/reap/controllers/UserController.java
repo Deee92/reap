@@ -39,9 +39,6 @@ public class UserController {
     @Autowired
     ItemService itemService;
 
-    //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "/home/ttn/ttn_dev/reap/src/main/resources/static/user-images/";
-
     @GetMapping("/users")
     @ResponseBody
     List<User> getUserList() {
@@ -208,7 +205,6 @@ public class UserController {
                                       HttpServletRequest httpServletRequest,
                                       RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            System.out.println("ERROR ERROR ERROR");
             return new ModelAndView("index");
         } else {
             List<String> emails = userService.findAllEmails();
@@ -220,11 +216,8 @@ public class UserController {
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setAttribute("activeUser", user);
             try {
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-                Files.write(path, bytes);
-                String photoPath = "/user-images/" + file.getOriginalFilename();
-                user.setPhoto(photoPath);
+                String path = saveImagePath(file);
+                user.setPhoto(path);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -236,6 +229,15 @@ public class UserController {
             httpSession.setAttribute("currentCartTotal", 0);
             return modelAndView;
         }
+    }
+
+    // Save user photo
+    public String saveImagePath(MultipartFile file) throws IOException {
+        String UPLOADED_FOLDER = "/home/ttn/ttn_dev/reap/out/production/resources/static/images/user-images/";
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+        Files.write(path, bytes);
+        return "/images/user-images/" + file.getOriginalFilename();
     }
 
     // Modify user with id {id}

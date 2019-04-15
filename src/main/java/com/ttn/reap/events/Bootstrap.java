@@ -40,6 +40,7 @@ public class Bootstrap {
             admin.setLastName("Tiwari");
             admin.setFullName(admin.getFirstName() + " " + admin.getLastName());
             admin.setPassword("dee");
+            admin.setPhoto("/images/user-images/user1.png");
             Set roleSet = new HashSet<Role>();
             roleSet.add(Role.ADMIN);
             roleSet.add(Role.PRACTICE_HEAD);
@@ -55,6 +56,7 @@ public class Bootstrap {
             user1.setLastName("Arora");
             user1.setFullName(user1.getFirstName() + " " + user1.getLastName());
             user1.setPassword("divya");
+            user1.setPhoto("/images/user-images/user2.png");
             Set roleSet1 = new HashSet<Role>();
             roleSet1.add(Role.SUPERVISOR);
             user1.setRoleSet(roleSet1);
@@ -69,6 +71,7 @@ public class Bootstrap {
             user2.setLastName("Oberoi");
             user2.setFullName(user2.getFirstName() + " " + user2.getLastName());
             user2.setPassword("dhruv");
+            user2.setPhoto("/images/user-images/user3.png");
             userService.save(user2);
             System.out.println(user2.toString());
 
@@ -80,6 +83,7 @@ public class Bootstrap {
             user3.setLastName("Chakraborty");
             user3.setFullName(user3.getFirstName() + " " + user3.getLastName());
             user3.setPassword("souvik");
+            user3.setPhoto("/images/user-images/user4.png");
             Set roleSet3 = new HashSet<Role>();
             roleSet3.add(Role.SUPERVISOR);
             user3.setRoleSet(roleSet3);
@@ -94,6 +98,7 @@ public class Bootstrap {
             user4.setLastName("Sinha");
             user4.setFullName(user4.getFirstName() + " " + user4.getLastName());
             user4.setPassword("kanchan");
+            user4.setPhoto("/images/user-images/user5.png");
             user4.setActive(false);
             userService.save(user4);
             System.out.println(user4.toString());

@@ -70,6 +70,10 @@ body {
     font-size: 3em;
 }
 
+.card-body .fa-award {
+    font-size: 3em;
+}
+
 .newer-row {
     margin-bottom: 1em;
 }
