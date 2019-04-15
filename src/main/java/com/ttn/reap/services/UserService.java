@@ -15,11 +15,18 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    private static int nameCounter = 0;
+
     // Save new user with badges and points based on user's roles
     public User save(User user) {
         User userToSave = setBadges(user);
         userToSave.setPoints(calculatePoints(userToSave));
-        userToSave.setFullName(userToSave.getFirstName() + " " + userToSave.getLastName());
+        String fullName = userToSave.getFirstName() + " " + userToSave.getLastName();
+        if (userRepository.findByFullName(fullName) != null) {
+            nameCounter += 1;
+            fullName = fullName + " " + nameCounter;
+        }
+        userToSave.setFullName(fullName);
         return userRepository.save(userToSave);
     }
 
