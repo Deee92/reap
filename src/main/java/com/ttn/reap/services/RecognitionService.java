@@ -28,16 +28,22 @@ public class RecognitionService {
             if (sendingUser.getGoldShareable() > 0) {
                 sendingUser.setGoldShareable(sendingUser.getGoldShareable() - 1);
                 receivingUser.setGoldRedeemable(receivingUser.getGoldRedeemable() + 1);
+            } else {
+                throw new RuntimeException("You don't have enough shareable gold badges");
             }
         } else if (recognition.getBadge().equals("silver")) {
             if (sendingUser.getSilverShareable() > 0) {
                 sendingUser.setSilverShareable(sendingUser.getSilverShareable() - 1);
                 receivingUser.setSilverRedeemable(receivingUser.getSilverRedeemable() + 1);
+            } else {
+                throw new RuntimeException("You don't have enough shareable silver badges");
             }
         } else if (recognition.getBadge().equals("bronze")) {
             if (sendingUser.getBronzeShareable() > 0) {
                 sendingUser.setBronzeShareable(sendingUser.getBronzeShareable() - 1);
                 receivingUser.setBronzeRedeemable(receivingUser.getBronzeRedeemable() + 1);
+            } else {
+                throw new RuntimeException("You don't have enough shareable bronze badges");
             }
         }
         receivingUser.setPoints(userService.calculatePoints(receivingUser));
